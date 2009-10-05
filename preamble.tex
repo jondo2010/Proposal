@@ -1,0 +1,56 @@
+%
+%	preamble.tex
+%
+%	Proposal: Document Preamble
+%
+%	John Hughes and Michael Jean
+%	University of Manitoba
+%
+
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{3}
+
+\usepackage[T1]{fontenc}
+\usepackage[latin9]{inputenc}
+
+\usepackage{babel}
+\usepackage{array}
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage{nomencl}
+\usepackage{fancyhdr}
+\usepackage{tikz}
+\usepackage{lastpage}
+
+\pagestyle{fancy}
+
+\fancyhead[LE,LO]{Draft Proposal}
+\fancyfoot[LE,LO]{
+  \footnotesize{
+    John Hughes, john\_hughes@umanitoba.ca\\
+    Michael Jean, michael.jean@shaw.ca
+  }
+}
+
+\fancyfoot[CE,CO]{\thepage\ of \pageref{LastPage}}
+\fancyfoot[RE,RO]{
+  \footnotesize{
+    \jobname\\
+    \today
+  }
+}
+
+\usetikzlibrary{shapes,arrows,shadows,calc}
+  \tikzstyle{block} = [draw=red!50!black!50, % 50% red, 50% black
+                       top color=white,
+                       bottom color=red!50!black!20,
+                       rectangle,
+                       very thick,
+                       minimum height=3em,
+                       minimum width=6em,
+                       inner sep=0.5em,
+                       drop shadow,
+                       text width=2cm,
+                       text centered]
+  \tikzstyle{bus} = [coordinate]
+ 
