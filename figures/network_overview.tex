@@ -1,0 +1,32 @@
+\begin{tikzpicture}[
+    auto,
+    node distance=3cm,
+    draw=black!70,
+    >=stealth']
+
+    \node at (0,0) [bus, name=busstart] {};
+    \node [bus, name=bus0, left of=busstart, right=2cm] {};
+    \node [bus, name=busmid, right of=busstart, label=above:CAN Bus] {};
+    \node [bus, name=busend, right of=busmid] {};
+    \node [bus, name=bus1, right of=busend, left=2cm] {};
+    \draw [-, line width=3pt, densely dashed] (bus0) to (busstart);
+    \draw [-, line width=3pt] (busstart) to (busmid);
+    \draw [-, line width=3pt] (busmid) to (busend);
+    \draw [-, line width=3pt, densely dashed] (busend) to (bus1);
+
+    \node [block, name=master1, below of=busstart, above=1cm] {Master Module};
+    \node [block, name=master2, right of=master1] {Master Module};
+    \node [block, name=master3, right of=master2] {Master Module};
+
+    \node [block, below of=master1, above=0.5cm] (cpu1) {CPU};
+    \node [block, right of=cpu1] (cpu2) {CPU};
+    \node [block, right of=cpu2] (cpu3) {CPU};
+
+    \draw [->, thick] (master1) to (busstart);
+    \draw [->, thick] (master2) to (busmid);
+    \draw [->, thick] (master3) to (busend);
+
+    \draw [<->, thick] (cpu1) to (master1);
+    \draw [<->, thick] (cpu2) to (master2);
+    \draw [<->, thick] (cpu3) to (master3);
+\end{tikzpicture}

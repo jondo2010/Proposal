@@ -1,0 +1,19 @@
+\begin{tikzpicture}[
+    auto,
+    node distance=3.5cm,
+    draw=black!70,
+    >=stealth']
+
+    \node [block, name=jtag] {JTAG/ICSP};
+    \node [block, name=micro, below of=jtag] {AT90CAN128 Microcontroller};
+    \node [block, name=vreg, left of=micro] {Linear Regulator};
+    \node [block, name=can, right of=micro] {MCP2551 CAN Transceiver};
+    \node [block, name=inter, below of=micro, minimum width=25em] {Interconnection Headers};
+
+    \draw [<->, thick, double] (jtag) to (micro);
+    \draw [<->, thick, double] (micro) to (can);
+
+    \draw [->] (inter.north west)+(1em,0) to node {+12v} (vreg);
+    \draw [->] (inter) to (vreg);
+    \draw [->] (vreg) to (inter);
+\end{tikzpicture}
