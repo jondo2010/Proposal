@@ -21,6 +21,10 @@
 \usepackage{fancyhdr}
 \usepackage{tikz}
 \usepackage{lastpage}
+\usepackage[letterpaper]{geometry}
+
+% Set Margins
+\geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1.5in,rmargin=1in}
 
 \pagestyle{fancy}
 
@@ -41,17 +45,17 @@
 }
 
 \usetikzlibrary{shapes,arrows,shadows,calc}
-  \tikzstyle{block} = [draw=red!50!black!50, % 50% red, 50% black
-                       top color=white,
-                       bottom color=red!50!black!20,
-                       rectangle,
-                       very thick,
-                       minimum height=3em,
-                       minimum width=6em,
-                       inner sep=0.5em,
-                       drop shadow,
-                       text width=2cm,
-                       text centered]
-  \tikzstyle{bus} = [coordinate]
+\tikzstyle{block} = [ draw=red!50!black!50, % 50% red, 50% black
+		      top color=white,
+		      bottom color=red!50!black!20,
+		      rectangle,
+		      very thick,
+		      minimum height=3em,
+		      minimum width=6em,
+		      inner sep=0.5em,
+		      drop shadow,
+		      text width=2cm,
+		      text centered]
+\tikzstyle{bus} = [coordinate]
 
  

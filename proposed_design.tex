@@ -23,8 +23,73 @@
 
 \subsection{Wireless Telemetry}
 
+The ability to communicate with the car wirelessly is a very important
+feature of most current FSAE designs. There are various systems in
+the University of Manitoba's Formula SAE car that are important to
+interface with remotely, including the ECU and the \emph{Data Aquisition
+Device} (DAQ\nomenclature{DAQ}{Data Aquisition device, provides and logs
+high-performance GPS, accelerometer, and ADC input data}).
+Both the ECU and the DAQ hardware provide a wired RS232 interface
+to a Windows PC running proprietary software that communicates with
+each device. Each software expects to talk directly to the device
+through a Windows COM port.
+
+Our goal with the wireless telemetry for the 2009/2010 car is to multiplex
+the two serial streams, and send the data wirelessly using an XBee
+modem to multiple different receiver laptops using a receiver modem.
+A small software driver will split the two data streams apart, and
+dump the data into two different virtual serial ports on the PC. The
+goal with this is that the driver will allow proprietary software
+to run transparently without any modifications. A block diagram of
+the telemetry system can be seen in Figure
+\ref{fig:Wireless-Telemetry-Overview}.
+
 \subsubsection{Mechanical}
 \subsubsection{Hardware}
+The telemetry module will be implemented on a custom PCB with the same
+microcontroller common to the other modules, the AT90CAN128. In addition to the
+common life-support hardware, the telemetry module will also include a dual
+RS232 trasceiver chip and 2 DSub9 connectors. The ECU and the DAQ will connect
+with the telemetry board with standard 9-pin serial cables. While the RS232
+transceiver will interface with the AT90CAN's 2 built-in USART ports, a third
+UART will be needed to interface with an XBee Pro wireless modem. For this, the
+telemetry module will include an SPI interfaceable UART chip.
+
+The XBee Pro Modems from Digi International require a 3.3V power supply, and
+consume at most 215mA of current during transmit. Since the common module
+hardware provides power for only 5V devices,
+the telemetry module will have a second LDO regulator providing 3.3V.
+
+  \begin{figure}[H]
+    \begin{centering}
+      \input{figures/telemetry_module_overview}
+    \end{centering}
+
+    \caption{Wireless Telemetry Overview\label{fig:Wireless-Telemetry-Overview}}
+  \end{figure}
+
+  \begin{table}[H]
+    \caption{Wireless Telemetry Module
+Components\label{tab:Wireless-Telemetry-Module}}
+    \begin{centering}
+      \begin{tabular}{|c|c|c|}
+	\hline 
+	Part & Description & Part Number\tabularnewline
+	\hline
+	\hline
+	Wireless Modem & XBee-PRO OEM Module & XBee-PRO\tabularnewline
+	\hline 
+	RS232 Transciever & Dual RS232 Trasciever & MAX232\tabularnewline
+	\hline 
+	SPI-UART & Additional SPI interfacable UART chip &
+MAX3100\tabularnewline
+	\hline 
+	3v3 LDO & 300mA Low Dropout Regulator & LT1521\tabularnewline
+	\hline
+      \end{tabular}
+    \end{centering}
+  \end{table}
+
 \subsubsection{Software}
 
 \subsection{Driver Interface}

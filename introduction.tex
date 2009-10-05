@@ -9,7 +9,43 @@
 
 \chapter{Introduction}
 
+\section{Background}
+
+Formula SAE\nomenclature{SAE}{Society of Automotive Engineers} is
+an engineering student design competition organized by the Society
+of Automotive Engineers dating back to 1978\cite{fsaehistory}. Students
+from the University of Manitoba have participated in the competition
+almost every year since 1985. The competition consists of designing
+and constructing a small, open-wheeled, formula-style race car.
+
 \section{Purpose}
-\section{Relevance}
+
+Many of the issues that directly affect the teams' performance at
+competition relate to driver training, feedback, and the tuneability
+of the car. Most of the mechanical systems on the car must currently
+be imprecisely hand-tuned, and are packaged in hard to reach places,
+and require body panels or the seat to be removed for access.
+
+Our overall goal is thus to improve the precision, adjustability, and
+repeatability of adjustment, of various important mechanical systems
+in the car, and to improve the efficiency of testing. We want a shorter
+driver feedback-tuning loop in order to eliminate
+overshoot and undershoot in tuning, and to avoid other external disturbances.
+
+A second major goal is to improve upon the transmission control systems
+of previous years' designs.
+
+% For example, tuning the suspension for a given ride height and road
+% surface requires the driver to drive several laps, and then adjust
+% damping rates on the dampers by hand with a screw driver, a half-turn
+% at a time. This is imprecise, since there is no quantification of
+% the actual damping rate that gets dialed in, and is typically unrepeatable
+% if conditions change and the team wants to readjust the suspension.
+% It's also not feasable to adjust the suspension for each seperate
+% drivers preferences.
+
 \section{Methods Used}
 
+We aim to meet our goals by designing and building a decentralized CAN
+automotive network with a series of specialized modules that will interface
+with each other, as well as with their own actuators and sensors.
