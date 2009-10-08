@@ -32,7 +32,7 @@
     \node [block, name=clutch_c, below of=clutch_v] {Clutch Cylinder};
     \node [block, name=position, below of=clutch_c] {Position Sensor};
 
-    \draw [->] (enginemod) to (servo);
+    \draw [->] ( $(enginemod.south)!0.5!(enginemod.south east)$ ) -- ++(0,-0.75) -| (servo);
     \draw [-, dashed] (servo) to (valve);
 
     \draw [->] (enginemod) to (shift_v);
@@ -41,5 +41,5 @@
     \draw [->] (enginemod) to (clutch_v);
     \draw [-, dashed] (clutch_v) to (clutch_c);
     \draw [-, dashed] (position) to (clutch_c);
-    \draw [->] (position) to (enginemod);
+    \draw [->] (position.east) -- ++(0.5,0) -- ++(0,3.5) -| ($(enginemod.south)!0.5!(enginemod.south west)$);
 \end{tikzpicture}
