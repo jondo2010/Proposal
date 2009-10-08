@@ -9,9 +9,47 @@
 
 \section{Specifications}
 
-\subsection{Engine Controller}
-\subsection{Brake Controller}
-\subsection{Wireless Telemetry}
+Specifications on what will be required from the end result deliverables of this project are described in the following sections.
+
+\subsection{General Requirements}
+
+\subsubsection{Hardware}
+
+All designs will need to be implemented in hardware and tested and debugged on the 2010 Formula SAE vehicle.
+
+\paragraph{Elemental Resistance}
+All electronic components must be designed with elemental enclosure in mind. Sealed header connectors will need to be used, and the PCB boards secured in a water resistant enclosure. The components must also be able to withstand the vibrations, G forces, and heat on the Formula SAE vehicle.
+
+\paragraph{Programming/Debugging ease}
+All microcontroller systems must be easy to program and debug. Programming headers must be available on the PC board allowing for in-place programming using a laptop and USB programmer.
+
+\subsubsection{Software}
+
+\paragraph{Stability}
+
+\paragraph{Code Reuse}
+Code for all modules should be reused as much as possible to reduce the complexity of the software design.
+
+\paragraph{Runtime Modifiable Operation}
+All parameters used by the software that might need to be modified during testing, tuning, and debugging must be modifiable at runtime either through the driver interface, or through the CAN debugger.
+
+\subsection{Engine Module}
+The engine module must be able to
+\begin{enumerate}
+ \item Start the engine by energizing the starter solenoid;
+ \item Activate and deactivate launch control on the ECU;
+ \item 
+ \item Precicely control the position of the clutch;
+ \item Feather the clutch during low throttle launch;
+ \item Actuate the variable intake manifold (timing requirements to be determined).
+\end{enumerate}
+
+\subsection{Brake Module}
+Must be able to absolutely position brake bias
+Must be able to respond to changes in assembly position, etc, by recalibration
+Must be able to detect brake pedal pressure
+
+\subsection{Wireless Telemetry Module}
 
 Transparently transport data bidirectionally with the ECU over the ECUs serial
 connection and a laptop running the DTASwin tuning software.
@@ -22,4 +60,17 @@ come primarily from the DAQ, but also from other sensors.
 
 Send messages over the CAN network with data from the DAQ, such as
 
-\subsection{Driver Interface}
+\subsection{Driver Interface Module}
+Must be able to change vehicle dynamics mode
+Must be able to alter vehicle dynamics mode parameters on the fly
+Must be able to permanently store vehicle dynamics parameters
+Must be able to display status of:
+\begin{itemize}
+  \item Wireless telemetry (Signal strength, association status)
+  \item Engine parameters such as RPM, water temp, oil pressure, and warning lights when these are out of range
+  \item Vehicle speed (Either wheelspeed, or from the GPS)
+  \item Current gear
+\end{itemize}
+Must be able to start the engine
+Must be able to alter module-specific parameters, such as shift timing constants
+Must be able to display team logo, and certain team sponsor logos on startup.

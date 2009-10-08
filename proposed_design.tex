@@ -50,9 +50,9 @@ The engine module will be implemented on a custom PCB with the same AT90CAN128 m
     \caption{Engine Module Overview\label{fig:Engine-Module-Overview}}
   \end{figure}
 
+  \begin{centering}
   \begin{table}[H]
     \caption{Engine Module Components\label{tab:Engine-Module}}
-    \begin{centering}
       \begin{tabular}{|c|c|c|}
 	\hline 
 	Part & Description & Part Number\tabularnewline
@@ -61,11 +61,26 @@ The engine module will be implemented on a custom PCB with the same AT90CAN128 m
 	Solenoid Driver & Octal Serial Solenoid Driver & L9822E\tabularnewline
 	\hline
       \end{tabular}
-    \end{centering}
   \end{table}
+  \end{centering}
 
 
 \subsubsection{Software}
+
+\paragraph{Auto Upshift Feature}
+This feature of the engine module is aimed primarily at improving performance in the acceleration event. Based on known torque curves, a table of optimal shift points in the RPM range will be identified. As the engine reaches the top RPM for a given gear, the engine module will automatically upshift to the next gear, without any driver input. All the driver needs to do is maintain full throttle, and hold on.
+
+\paragraph{Full-throttle Launch}
+Full-throttle launch uses an important feature of the ECU called launch control. From a stand-still, the slip ratio of the driven wheels to the non-driven wheels is monitored, and the engine output power is reduced until the ratio reaches 1:1. Drivers will use this feature by maintaining full-throttle at the starting line while holding the brake pedal. As soon as the brake pedal is released, the the engine module will release the clutch in a controlled manner in an attept to get the best possible acceleration.
+
+\paragraph{Part-throttle Launch}
+Part-throttle launch is a feature designed to mimick an automatic transmission. By controlling the clutch position, and thereby modulating the amount of torque transferred to the wheels for a short period of time, the car can be made to creep slowly from a standstill. This will be used when driving up to the starting line of various dynamic events.
+
+\paragraph{Neutral Find}
+As drivers come in to the pits from driving the course, a useful feature is the ability for the car to shift the transmission back into neutral to avoid stalling the car. The neutral find feature will automatically downshift the transmission repeatedly until it finds neutral.
+
+\paragraph{Anti-Stall}
+
 
 %
 %		Brake Module
@@ -178,3 +193,19 @@ Rotary Dials & Bourns Inc. ECW detented rotary encoder & ECW1J-B24-BC0024L-ND\ta
 \subsubsection{Mechanical}
 \subsubsection{Hardware}
 \subsubsection{Software}
+
+\subsubsection{Vehicle Dynamics Mode (VDM)}
+\nomenclature{VDM}{Vehicle Dynamics Mode}
+
+As part of the overall software control system, we want to implement a method of quickly modifying system behaviour, and several dynamic vehicle parameters quickly and easily. For example, during the acceleration event at competition, we want to enable launch control, enable auto-upshift, and perhaps have a firmer suspension setting. This will be possible all in one step by changing the Vehicle Dynamics Mode to {}``acceleration''. All nodes on the network will be synchronized to modify their parameters in accordance with the specific mode.
+\begin{description}
+  \item [{PitMode}] Enables soft-launch driving characteristics that mimic a fully automatic transmission. This makes slowly driving the car forward from a standstill far easier, and only requires the driver to take his left foot off the brake, and slightly apply the throttle.
+  \item [{AccelMode}] Puts the cars' systems into full-performance characteristics. Launch control is activated. The transmission controller will watch for a launch signal from the driver, and will automatically up-shift based on the engine RPM.
+  \item [{DynamicMode}] Will put the cars' systems into a mode that is suitable for the autocross, and the endurance race.
+\end{description}
+The different parameters for all the possible modes will be stored in flash in each of the specific modules. Once a module receives a mode change message, it is its responsibility to modify its behavior to match the requested mode. It will be possible to modify the parameters stored on the node on-the-fly through the driver interface.
+
+\subsection{Network Tester}
+\nomenclature{CAN}{Controller Area Network}
+
+To achieve our testability goals, we will design and manufacture an independent \emph{Controller Area Network} (CAN) network tester module to allow us to interface directly with individual nodes on the network, and to test parts of the system independently of one another. The network tester will consist of a PC-interfaceable micro-controller that will run a set of test suites. Each test suite will test all functions of a given module by sending and receiving the expected messages on the network to the module. This will greatly ease the development and debugging of the software on each node.
