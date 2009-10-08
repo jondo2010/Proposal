@@ -10,9 +10,9 @@
 \section{Proposed Design}
 
 %
-%		Engine Controller
+%		Engine Module
 %
-\subsection{Engine Controller}
+\subsection{Engine Module}
 
 \subsubsection{Transmission}
 
@@ -20,9 +20,9 @@ Formula SAE cars designed at the University of Manitoba have for the past severa
 
 Yet several inherent drawbacks to the 2008/2009 shift system still existed. The nature of the pneumatic systems required that the air cylinder be regularly refilled, a recurring expense, and the team had many problems with air leaks and air lines coming loose or coming into contact with hot surfaces and melting. A major drawback of of the system is that the position of the cylinders is only binary or trinary. In the case of the clutch, it is only possible to engage, or disengage, at a constant rate determined by the pressure in the system, the flow rate through the valves, and the diameter of the piston. Because of this, it was not feasable to use the pneumatic actuation for launching the car, which requires {}``feathering'' of the clutch, or controlling the rate that the clutch plates return into contact with each other, in order to increase the momentum of the car from a stand-still. In order to launch the car, a hand-lever was still required.
 
-Our goal for the 2009/2010 transmission controller is to further detask the driver, improve shift performance, and improve accuracy. We will maintain timing, while allow for precise positioning of the clutch and shift levers. This will in turn allow for a {}``partial-throttle launch'' without a hand-lever, and be mechanically less strenuous on the clutch and transmission. We also want to have feedback mechanisms for the clutch and gear lever positioning, and indexed-feedback for the current gear position. This will allow us to positively determine if a shift was successful, and to know which gear the transmission currently is in.
+Our goal for the 2009/2010 transmission control is to further detask the driver, improve shift performance, and improve accuracy. We will maintain timing, while allow for precise positioning of the clutch and shift levers. This will in turn allow for a {}``partial-throttle launch'' without a hand-lever, and be mechanically less strenuous on the clutch and transmission. We also want to have feedback mechanisms for the clutch and gear lever positioning, and indexed-feedback for the current gear position. This will allow us to positively determine if a shift was successful, and to know which gear the transmission currently is in.
 
-In order to achieve our goals with the transmission control, we will develop a closed loop control system for the clutch position actuator, and control air into the cylinder by using a fast PWM valve instead of a slow binary one. Physical models of the entire pneumatic system will be determined in collaboration with Jose M. Ricon Ruiz, a student in the faculty of mechanical engineering who will be doing his thesis project on the subject. Position feedback will be provided by rotary potentiometers. Current gear position will be determined with a potentiometer mechanically linked to the shift drum in the transmission. Timing signals, as well as control software will be implemented at several levels on a micro controller.
+In order to achieve our goals with the transmission control, we will develop a closed loop control system for the clutch position actuator, and control air into the cylinder by using a fast PWM valve instead of a slow binary one. Physical models of the entire pneumatic system will be determined in collaboration with Jose M. Ricon Ruiz, a student in the faculty of mechanical engineering who will be doing his thesis project on the subject. Position feedback will be provided by rotary potentiometers. Current gear position will be determined with a potentiometer mechanically linked to the shift drum in the transmission. Timing signals, as well as control software will be implemented at several levels on a microcontroller.
 
 A sizeable effort and analysis was made in consideration of replacing the pneumatic system with a fully electronic one. It was determined however that for the amount of torque required, the power to weight ratio of electric motors and gearboxes was far less than that of a pneumatic solution.
 
@@ -40,14 +40,14 @@ We will develop a servo mechanism that will actuate a two-position variable inta
 
 \subsubsection{Hardware}
 
-The engine module will be implemented on a custom PCB with the same AT90CAN128 microcontroller common to the other modules. In addition to the common life-support hardware, the engine controller module will include an SPI interfaceable octal low-side solenoid driver. This driver chip will switch the low side of the solenoid valves, as well as the starter solenoid. It includes flyback protection circuitry, and can detect electrical shorts. The hardware architecture for the Engine Module can be seen in Figure \ref{fig:Engine-Module-Overview}.
+The engine module will be implemented on a custom PCB with the same AT90CAN128 microcontroller common to the other modules. In addition to the common life-support hardware, the engine module will include an SPI interfaceable octal low-side solenoid driver. This driver chip will switch the low side of the solenoid valves, as well as the starter solenoid. It includes flyback protection circuitry, and can detect electrical shorts. The hardware architecture for the Engine Module can be seen in Figure \ref{fig:Engine-Module-Overview}.
 
   \begin{figure}[H]
     \begin{centering}
       \input{figures/engine_module_overview}
     \end{centering}
 
-    \caption{Engine Controller Overview\label{fig:Engine-Module-Overview}}
+    \caption{Engine Module Overview\label{fig:Engine-Module-Overview}}
   \end{figure}
 
   \begin{table}[H]
@@ -68,18 +68,30 @@ The engine module will be implemented on a custom PCB with the same AT90CAN128 m
 \subsubsection{Software}
 
 %
-%		Brake Controller
+%		Brake Module
 %
-\subsection{Brake Controller}
+\subsection{Brake Module}
+
+As dictated by the competition rules, all Formula SAE cars must have 4-wheel hyraulic brakes. The braking system must be composed of 2 independent hydraulic circuits \cite{2010fsaerules}. Typically all designs seperate the front and rear braking circuits, and link the two together to the brake pedal with a {}``bias bar''. This bar serves to transmit force from the applied brake pedal proportionately to both hydraulic cylinders. The amount of braking force front-to-back can therefore be adjusted by adjusting the bias bar. The bias bar in the University of Manitoba's Formula SAE design is a threaded rod, and is adjusted by rotation.
+
+The front-to-back brake bias is an important dynamic characteristic of the car. The car must be able to {}``lock'' all 4 tires under heavy braking, as specified in the rules. Different drivers also prefer slightly more bias front or rearwards. Adjusting the brake bias in virtually all previous generations of UofM Formula SAE cars required removing body panels, or the front nose cone, and manually turning a knob on the bias bar. Finding an appropriate setting for brake bias was a tedious trial and error exercise, as drivers had to run a lap in the car, brake heavily, and then return to the team so that the body could be removed and the bias adjusted. This is a very lengthy feedback loop in adjustability.
+
+Our goal for the 2009/2010 car is to enable electronic control of the brake bias with the addition of a brake module. We want to allow drivers to be able to adjust the brake bias from cockpit controls, and to quantify the brake bias as a percentage front-to-back, allowing different drivers to {}``dial-in'' their preferred bias setting.
 
 \subsubsection{Mechanical}
+
+To achieve our goals with the brake bias in the 2009/2010 car, we will design and manufacture a braking module which will be able to adjust the bias bar. A stepper motor will be linked to the bar. Automatic calibration is enabled by sensing the furthest extents in both directions of the bias bar. Microswitches will signal the module when the bar has reached an outer limit.
+
 \subsubsection{Hardware}
+
+The brake module will be implemented on a custom PCB with the same AT90CAN128 microcontroller common to the other modules. In addition to the common life-support hardware, the brake module will include . The hardware architecture for the brake module can be seen in Figure \ref{fig:Engine-Module-Overview}.
+
 \subsubsection{Software}
 
 %
 %		Wireless Telemetry
 %
-\subsection{Wireless Telemetry}
+\subsection{Wireless Telemetry Module}
 
 The ability to communicate with the car wirelessly is a very important feature of most current FSAE designs. There are various systems in the University of Manitoba's Formula SAE car that are important to interface with remotely, including the ECU and the DAQ. Both the ECU and the DAQ hardware provide a wired RS232 interface to a Windows PC running proprietary software that communicates with each device. Each software expects to talk directly to the device through a Windows COM port.
 
@@ -124,7 +136,44 @@ MAX3100\tabularnewline
 
 \subsubsection{Software}
 
-\subsection{Driver Interface}
+%
+%	Driver Interface Module
+%
+
+\subsection{Driver Interface Module}
+\nomenclature{LCD}{Liquid Crystal Display}
+
+A major design concern with the Formula SAE car is driver control and feedback. In previous years, the team has often been hindered by a lack of direct information from the electronic systems in the car. While the team will benefit from having wireless telemetry data available, it will be beneficial to get diagnostics directly from the car, as well as inform the driver about current data.
+
+Our goal for the 2009/2010 car's driver interface is to have a large monochrome \emph{Liquid Crystal Display} (LCD) screen inset in the steering wheel providing real-time information to the driver about all the electronic systems in the car. The LCD module will be an off the shelf module complete with controller, character RAM, and LCD drivers. It will provide an 8-bit parallel interface to the microcontroller. Primary information that we want to display to the driver consists of:
+\begin{itemize}
+\item Current gear;
+\item Current vehicle dynamics mode;
+\item Telemetry signal strength;
+\item Engine RPM;
+\item Vehicle wheelspeed;
+\item Launch control status.
+\end{itemize}
+Additional information can be displayed by paging through information screens with a push button.
+
+We also want to be able to change various run-time parameters through the driver interface.
+
+\begin{table}[H]
+\caption{Steering Wheel Components\label{tab:Steering-Wheel-Components}}
+
+\centering{}\begin{tabular}{|c|>{\centering}p{15em}|c|}
+\hline 
+Part & Description & Part Number\tabularnewline
+\hline
+\hline 
+LCD Screen & Newhaven Display 320x240 Monochrome, Transflective, LCD & NHD-320240WX\tabularnewline
+\hline 
+LCD Controller & RAiO Dot Matrix LCD Controller & RA8835\tabularnewline
+\hline 
+Rotary Dials & Bourns Inc. ECW detented rotary encoder & ECW1J-B24-BC0024L-ND\tabularnewline
+\hline
+\end{tabular}
+\end{table}
 
 \subsubsection{Mechanical}
 \subsubsection{Hardware}
