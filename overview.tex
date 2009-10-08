@@ -1,0 +1,91 @@
+%
+%	overview.tex
+%
+%	Project Details: Overview
+%
+%	John Hughes and Michael Jean
+%	University of Manitoba
+%
+
+\documentclass[english]{report}
+\include{preamble}
+\begin{document}
+
+\section{System Overview}
+
+The Formula SAE vehicle is a performance car built with the primary goal of doing well in the 
+dynamic events at the yearly competitions. These events test the vehicles abilities in acceleration, 
+braking, and handling.
+
+The vehicle as a whole is primarily a mechanical device, but carries several critical electronic 
+control systems. Three key mechanical systems that can benefit from electronic control are
+
+\begin{itemize}
+\item the \emph{internal combustion engine} (ICE\nomenclature{ICE}{Internal Combustion Engine}); 
+\item the \emph{braking system}; and
+\item the \emph{suspension system}.
+\end{itemize}
+
+\section{Internal Combustion Engine}
+
+The ICE is a \emph{Honda CBR600F4i}, a 600 cm$^3$ super-sport class engine with an internal 6-speed 
+chain driven transmission. The engine has a set of sensors attached to it, including
+
+\begin{itemize}
+\item an O$_{2}$ sensor;
+\item a Manifold Absolute Pressure (MAP) sensor; \nomenclature{MAP}{Manifold Absolute Pressure}
+\item an oil pressure sensor;
+\item a water temperature sensor;
+\item a throttle position sensor;
+\item a gear position sensor;
+\item cam and crank position sensors; and
+\item wheel speed sensors.
+\end{itemize}
+
+Several components of the internal combusion engine require electronic control, or could benefit from 
+the introduction of electronic control, namely
+
+\begin{itemize}
+\item timing signals for the fuel injectors must be generated;
+\item firing signals for the spark coils must be generated;  
+\item a starter signal for the starter solenoid must be provided;
+\item the clutch and gear selection levers must be intelligently actuated to change gears; and
+\item the intake valve must be opened or closed as driving conditions warrant.
+\end{itemize}
+
+\nomenclature{ECU}{Engine Control Unit}
+A specialized third-party component called the \emph{Engine Control Unit} (ECU) reads O$_{2}$
+and MAP sensor outputs and adjusts fuel injector and spark coil timings to keep the engine running 
+smoothly. The ECU also features a traction control system that monitors wheel slip and cuts spark 
+signal to help give traction when one of the drive wheels is slipping. The particular model of
+ECU used by the Formula SAE car is the S80Pro from DTAFast\cite{s60pro}.
+
+The ICE is started by energizing a \emph{starter solenoid}. This solenoid relays a large electric current 
+to the \emph{starter motor}, which turns over the engine and causes it to start. 
+
+The ICE has an internal 6-speed manual transmission. The first, fifth, and sixth gears have been 
+removed to reduce weight. The vehicle is not operated at speeds that would benefit from the presence 
+of the fifth or sixth gear, and launching from second gear provides the best acceleration. A pre-tensioned 
+spring lever controls the clutch. The spring keeps the clutch engaged when there is no force on the lever.
+As force is applied to the lever, the clutch is gradually disengaged. The relationship between
+lever position the distance between the clutch plate and flywheel is non-linear. Another
+pre-tensioned spring lever controls the gear selection. The gear selector may be rotated in either 
+direction from its rest point. Up-shifting is accomplished by rotating the lever in one direction, 
+while down-shifting is accomplished by rotating the lever in the opposite direction. 
+
+\section{Braking System}
+
+\section{Suspension System}
+
+Variables like fuel injection timing, spark coil firing rate, and  are determined with closed-loop
+feedback systems 
+
+The ICE, a Honda CBR600 F4i, is controlled by an off-the-shelf S80Pro \emph{Engine Control Unit} 
+(ECU\nomenclature{ECU}{Engine Control Unit}) from DTAFast\cite{s60pro}. The ECU provides
+timing signals to the fuel injectors and spark coils, enabling smooth operation of the ICE. 
+A feedback path to the ECU from a wide-band oxygen sensor downstream of the combustion chamber 
+allows the controller to sense the amount of residual oxygen in the exhaust, and allows closed-loop 
+control of the combustion process. The ECU also reads several tempurature, pressure, and rotational 
+velocity sensors from the engine.
+
+\end{document}
