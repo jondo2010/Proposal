@@ -9,56 +9,88 @@
 
 \section{Proposed Design}
 
+%
+%		Engine Controller
+%
 \subsection{Engine Controller}
 
-\subsubsection{Mechanical}
+\subsubsection{Transmission}
+
+Formula SAE cars designed at the University of Manitoba have for the past several years utilized an electro-pneumatic shifting actuation system, controlled electronically from the steering wheel by paddle switches. A compressed air cylinder is used to feed air to pneumaic pistons which apply force to the levers on the clutch and shift shafts on the transmission. Air to the pistons is controlled by binary solenoid valves which apply pressure to either side of the piston. In 2007, the electronic control of the solenoid valves was realized with a set of switches on the steering wheel which switched the low-current side of a set of relays, which in turn fed current to the valves. In this system, the timing of the mechanical interaction with the transmission was entirely dependent on how long the driver held down the paddles for, which required a lot of effort for the driver, and often resulted in missed shifts, and was mechanically hard on the transmission. The 2008/2009 Formula SAE car improved the design by replacing the relays with high-current solid state drivers, and precicely controlled the timing signals to the solenoid valves with a state machine on an ARM7 microcontroller. This avoided a lot of possible driver error, as shift timing could be programmed and did not depend on how long the paddles were held.
+
+Yet several inherent drawbacks to the 2008/2009 shift system still existed. The nature of the pneumatic systems required that the air cylinder be regularly refilled, a recurring expense, and the team had many problems with air leaks and air lines coming loose or coming into contact with hot surfaces and melting. A major drawback of of the system is that the position of the cylinders is only binary or trinary. In the case of the clutch, it is only possible to engage, or disengage, at a constant rate determined by the pressure in the system, the flow rate through the valves, and the diameter of the piston. Because of this, it was not feasable to use the pneumatic actuation for launching the car, which requires {}``feathering'' of the clutch, or controlling the rate that the clutch plates return into contact with each other, in order to increase the momentum of the car from a stand-still. In order to launch the car, a hand-lever was still required.
+
+Our goal for the 2009/2010 transmission controller is to further detask the driver, improve shift performance, and improve accuracy. We will maintain timing, while allow for precise positioning of the clutch and shift levers. This will in turn allow for a {}``partial-throttle launch'' without a hand-lever, and be mechanically less strenuous on the clutch and transmission. We also want to have feedback mechanisms for the clutch and gear lever positioning, and indexed-feedback for the current gear position. This will allow us to positively determine if a shift was successful, and to know which gear the transmission currently is in.
+
+In order to achieve our goals with the transmission control, we will develop a closed loop control system for the clutch position actuator, and control air into the cylinder by using a fast PWM valve instead of a slow binary one. Physical models of the entire pneumatic system will be determined in collaboration with Jose M. Ricon Ruiz, a student in the faculty of mechanical engineering who will be doing his thesis project on the subject. Position feedback will be provided by rotary potentiometers. Current gear position will be determined with a potentiometer mechanically linked to the shift drum in the transmission. Timing signals, as well as control software will be implemented at several levels on a micro controller.
+
+A sizeable effort and analysis was made in consideration of replacing the pneumatic system with a fully electronic one. It was determined however that for the amount of torque required, the power to weight ratio of electric motors and gearboxes was far less than that of a pneumatic solution.
+
+\subsubsection{Variable Intake Plenum}
+
+A fair amount of research has been done in previous years on the intake and exhaust design for the Formla SAE car. Lucas Groening wrote his undergraduate thesis on modelling of the engine package for the 2008 car. One important dynamic aspect of the engine design that he describes is the effect of the intake runner length on the torque output of the engine at different RPM \cite{Modelingof20}.
+
+The intake consists of several parts. The throttlebody, which is a valve that serves to control the amount of air entering the intake system is followed by a restrictor, which restricts the maximum air flow into the engine. The restrictor is a requirement in the Formula SAE rules. After the restrictor the air flows into a large plenum, off of which 4 intake runners lead to each cylinder head, containing the valves.
+
+As the intake valves on the engine open, they generate negative pressure waves that travel the length of the intake runners back into the intake plenum, and there they reflect and travel back towards the intake valve. This effect of reflecting and bouncing back towards the intake valves can act to increase pressure at the valve and increase power. The timing of the returning pressure wave however is critical, as one wants the wave to reach the valve again just as it is opening for maximum effect. The length of time required for the waves to travel the length of the intake runners depends on the length of the runners. At different RPMs, the valves are opening and closing at different speeds, therefore for any fixed intake length, i.e., fixed amount of time for the negative waves to travel the length of the runners twice, there is an RPM that results in maximum torque \cite{Modelingof20}. The same effects can also be observed on the exhaust side of the engine.
+
+Engineers typically design the intake length to be optimal at a specific RPM. An improvement proposed by the team this year is to design an intake system which allows for the length of runners to be dynamically changed at runtime. At different RPMs, the intake runners will be either lengthened or shortened, based on data obtained through engine simulation. This will serve to widen the torque response of the engine over a larger range of RPMs. In order to realise this goal, an electromechanical control system will need to be developed to actuate the variable intake.
+
+We will develop a servo mechanism that will actuate a two-position variable intake plenum. It will react to changes in RPM, and actuate accordingly.
+
 \subsubsection{Hardware}
+
+The engine module will be implemented on a custom PCB with the same AT90CAN128 microcontroller common to the other modules. In addition to the common life-support hardware, the engine controller module will include an SPI interfaceable octal low-side solenoid driver. This driver chip will switch the low side of the solenoid valves, as well as the starter solenoid. It includes flyback protection circuitry, and can detect electrical shorts. The hardware architecture for the Engine Module can be seen in Figure \ref{fig:Engine-Module-Overview}.
+
+  \begin{figure}[H]
+    \begin{centering}
+      \input{figures/engine_module_overview}
+    \end{centering}
+
+    \caption{Engine Controller Overview\label{fig:Engine-Module-Overview}}
+  \end{figure}
+
+  \begin{table}[H]
+    \caption{Engine Module Components\label{tab:Engine-Module}}
+    \begin{centering}
+      \begin{tabular}{|c|c|c|}
+	\hline 
+	Part & Description & Part Number\tabularnewline
+	\hline
+	\hline
+	Solenoid Driver & Octal Serial Solenoid Driver & L9822E\tabularnewline
+	\hline
+      \end{tabular}
+    \end{centering}
+  \end{table}
+
+
 \subsubsection{Software}
 
+%
+%		Brake Controller
+%
 \subsection{Brake Controller}
 
 \subsubsection{Mechanical}
 \subsubsection{Hardware}
 \subsubsection{Software}
 
+%
+%		Wireless Telemetry
+%
 \subsection{Wireless Telemetry}
 
-The ability to communicate with the car wirelessly is a very important
-feature of most current FSAE designs. There are various systems in
-the University of Manitoba's Formula SAE car that are important to
-interface with remotely, including the ECU and the \emph{Data Aquisition
-Device} (DAQ\nomenclature{DAQ}{Data Aquisition device, provides and logs
-high-performance GPS, accelerometer, and ADC input data}).
-Both the ECU and the DAQ hardware provide a wired RS232 interface
-to a Windows PC running proprietary software that communicates with
-each device. Each software expects to talk directly to the device
-through a Windows COM port.
+The ability to communicate with the car wirelessly is a very important feature of most current FSAE designs. There are various systems in the University of Manitoba's Formula SAE car that are important to interface with remotely, including the ECU and the DAQ. Both the ECU and the DAQ hardware provide a wired RS232 interface to a Windows PC running proprietary software that communicates with each device. Each software expects to talk directly to the device through a Windows COM port.
 
-Our goal with the wireless telemetry for the 2009/2010 car is to multiplex
-the two serial streams, and send the data wirelessly using an XBee
-modem to multiple different receiver laptops using a receiver modem.
-A small software driver will split the two data streams apart, and
-dump the data into two different virtual serial ports on the PC. The
-goal with this is that the driver will allow proprietary software
-to run transparently without any modifications. A block diagram of
-the telemetry system can be seen in Figure
-\ref{fig:Wireless-Telemetry-Overview}.
+Our goal with the wireless telemetry for the 2009/2010 car is to multiplex the two serial streams, and send the data wirelessly using an XBee modem to multiple different receiver laptops using a receiver modem. A small software driver will split the two data streams apart, and dump the data into two different virtual serial ports on the PC. The goal with this is that the driver will allow proprietary software to run transparently without any modifications. A block diagram of the telemetry system can be seen in Figure \ref{fig:Wireless-Telemetry-Overview}.
 
-\subsubsection{Mechanical}
+A secondary goal for the telemetry system is to be able to decode and re-encode the serial stream from the DAQ. This will allow us to send data from the DAQs sensors, such as GPS and accelerometer data 
+
 \subsubsection{Hardware}
-The telemetry module will be implemented on a custom PCB with the same
-microcontroller common to the other modules, the AT90CAN128. In addition to the
-common life-support hardware, the telemetry module will also include a dual
-RS232 trasceiver chip and 2 DSub9 connectors. The ECU and the DAQ will connect
-with the telemetry board with standard 9-pin serial cables. While the RS232
-transceiver will interface with the AT90CAN's 2 built-in USART ports, a third
-UART will be needed to interface with an XBee Pro wireless modem. For this, the
-telemetry module will include an SPI interfaceable UART chip.
+The telemetry module will be implemented on a custom PCB with the same AT90CAN128 microcontroller common to the other modules. In addition to the common life-support hardware, the telemetry module will also include a dual RS232 trasceiver chip and 2 DSub9 connectors. The ECU and the DAQ will connect with the telemetry board with standard 9-pin serial cables. While the RS232 transceiver will interface with the AT90CAN's 2 built-in USART ports, a third UART will be needed to interface with an XBee Pro wireless modem. For this, the telemetry module will include an SPI interfaceable UART chip.
 
-The XBee Pro Modems from Digi International require a 3.3V power supply, and
-consume at most 215mA of current during transmit. Since the common module
-hardware provides power for only 5V devices,
-the telemetry module will have a second LDO regulator providing 3.3V.
+The XBee Pro Modems from Digi International require a 3.3V power supply, and consume at most 215mA of current during transmit. Since the common module hardware provides power for only 5V devices, the telemetry module will have a second LDO regulator providing 3.3V.
 
   \begin{figure}[H]
     \begin{centering}
