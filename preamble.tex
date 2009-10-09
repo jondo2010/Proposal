@@ -7,11 +7,11 @@
 %	University of Manitoba
 %
 
-\setcounter{secnumdepth}{3}
-\setcounter{tocdepth}{3}
-
 \usepackage[T1]{fontenc}
 \usepackage[latin9]{inputenc}
+
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{3}
 
 \usepackage{array}
 \usepackage{babel}
@@ -27,9 +27,12 @@
 % Set Margins
 \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1.5in,rmargin=1in}
 
+%\setlength{\parskip}{12 pt}
+\setlength{\parskip}{\medskipamount}
+\makeatletter
 \pagestyle{fancy}
 
-\fancyhead[LE,LO]{Draft Proposal}
+\fancyhead[LE,LO]{Project Proposal}
 \fancyfoot[LE,LO]{
   \footnotesize{
     John Hughes, john\_hughes@umanitoba.ca\\
@@ -61,8 +64,6 @@
 \tikzstyle{bus} = [coordinate]
 \tikzstyle{input} = [coordinate]
 \tikzstyle{output} = [coordinate]
-
-\setlength{\parskip}{12 pt}
 
 \usepackage[
   unicode=true,
