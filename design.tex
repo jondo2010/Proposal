@@ -10,24 +10,21 @@
 \chapter{Proposed Design}
 
 %
-% Engine Module
+% Engine System
 %
 
 \section{Engine System}
 
-The engine system consists of three sub-systems:
+The engine system consists of:
 
 \begin{itemize}
-
-\item the \emph{transmission} system, for shifting gears;
-
-\item the \emph{starter} system, for starting the motor from dead stop; and
-
-\item the \emph{intake management} system, for controlling the length of the intake runners.
-
+\item the \emph{transmission} sub-system, for shifting gears;
+\item the \emph{starter} sub-system, for starting the motor from dead stop; 
+\item the \emph{intake management} sub-system, for controlling the length of the intake runners; and
+\item the \emph{engine module}, which controls the sub-systems.
 \end{itemize}
 
-These systems consist of a network of electromechanical actuators, sensors, and electronics. The control hardware is contained within the \emph{engine module}, which acts as the control centre for the engine system. This design pattern is common throughout the other vehicle systems, as will be demonstrated in later sections.
+The three sub-systems consist of a network of electromechanical actuators, sensors, and electronics. The \emph{engine module} acts as the control centre for the engine system. This design pattern is common throughout the other vehicle systems, as will be demonstrated in later sections.
 
 \begin{figure}[H]
 	\centering
@@ -72,6 +69,7 @@ The starter feature will be disabled while the engine is running to avoid damagi
 As mentioned in section \ref{sec:ice_overview}, much research has been put into the concept of a variable intake plenum. Engineers typically design the intake length to be optimal for torque at one specific RPM. We propose an intake system which allows for the length of runners to be dynamically changed at runtime. The intake runners will be lengthened or shortened at different RPM values. This will serve to widen the torque response of the engine over a larger range of RPMs. A servo mechanism will actuate a two-position variable intake plenum. As engine RPM changes, the servo is actuated accordingly to maximize torque output.
 
 \subsection{Engine Module}
+\label{sec:engine_module}
 
 The \emph{engine module} is implemented on a custom PCB with an \emph{AT90CAN128} microcontroller from Atmel. All software for the microcontroller will be written in C and uploaded through a standard IEEE 1149.1 JTAG interface. 
 
@@ -82,11 +80,11 @@ In addition to the common life-support hardware for the microcontroller (such as
 	\centering
 	\begin{tabular}{|c|c|c|}
 		\hline 
-		Part & Manufacturer & Part Number\tabularnewline
+		Part & Manufacturer & Part Number\tabularnewline 
 		\hline \hline
-		CANBUS Transceiver & Microchip & MCP2551\tabularnewline 
-		Microcontroller & Atmel & AT90CAN128\tabularnewline 
-		Solenoid Driver & ST Microelectronics & L9822E\tabularnewline
+		CANBUS Transceiver & Microchip & MCP2551\tabularnewline \hline
+		Microcontroller & Atmel & AT90CAN128\tabularnewline \hline
+		Solenoid Driver & ST Microelectronics & L9822E\tabularnewline \hline
 		Voltage Regulator & Linear Technology & LT1129CST5\tabularnewline		
 		\hline
 	\end{tabular}
@@ -111,69 +109,103 @@ As drivers come in to the pits from driving the course, a useful feature is the 
 \end{description}
 
 %
-% Brake Module
+% Brake System
 %
 
-\section{Brake Module}
+\section{Brake Sytem}
 
-Electronic control of the brake bias is realized with the addition of the \emph{brake module}. Drivers may adjust the brake bias from cockpit controls, allowing different drivers to {}``dial-in'' their preferred bias setting.
+Electronic control of the brake bias is realized with the \emph{brake system}. Drivers may adjust the brake bias from cockpit controls, allowing different drivers to {}``dial-in'' their preferred bias setting. 
 
-\subsection{Mechanical}
+The brake system consists of: 
 
-To achieve our goals with the brake bias in the 2009/2010 car, we will design and manufacture a braking module which will be able to adjust the bias bar. A stepper motor will be linked to the bar. Automatic calibration is enabled by sensing the furthest extents in both directions of the bias bar. Microswitches will signal the module when the bar has reached an outer limit.
+\begin{itemize}
+\item the \emph{adjustment motor}, for moving the adjusting shaft;
+\item the \emph{end-of-travel sensors}, for calibrating the system; and
+\item the \emph{brake module}, which controls the adjustment process.
+\end{itemize}
 
-\subsection{Hardware}
+\subsection{Adjustment Motor}
 
-The brake module will be implemented on a custom PCB with the same AT90CAN128 microcontroller common to the other modules. In addition to the common life-support hardware, the brake module will include . The hardware architecture for the brake module can be seen in Figure \ref{fig:Engine-Module-Overview}.
+A low-torque, bipolar permanent magnet stepper motor will be mechanically coupled to the bar, so that it may move with the adjustment shaft, and travel vertically when the pedal is pressed. Little torque is required to rotate the adjustment shaft, so no motor gearing is required. 
 
-\subsection{Software}
+\subsection{End-of-Travel Sensors}
+
+Automatic calibration is enabled by sensing the furthest extents in both directions of the bias bar. Microswitches will signal the brake module when the bar has reached an outer limit. 
+
+\subsection{Brake Module}
+
+The brake module will be implemented on a custom PCB with the same AT90CAN128 microcontroller common to the other modules. In addition to the common life-support hardware, the brake module will include a stepper motor driver to generate the complex output signals required to drive the stepper motor.
+
+\subsection{Calibration Sequence}
+
+The current bias position will be saved in non-volatile memory inside the microcontroller, so that calibration is not necessary on start-up. Occassionaly, the system may be calibrated by signaling the brake module to begin it's calibration sequence over the CAN bus. During calibration, the bar will move from it's furthest extents and count the number of steps required. It will then move to the centre position.
 
 %
 % Wireless Telemetry
 %
-\section{Wireless Telemetry Module}
 
-The ability to communicate with the car wirelessly is a very important feature of most current FSAE designs. There are various systems in the University of Manitoba's Formula SAE car that are important to interface with remotely, including the ECU and the DAQ. Both the ECU and the DAQ hardware provide a wired RS232 interface to a Windows PC running proprietary software that communicates with each device. Each software expects to talk directly to the device through a Windows COM port.
+\section{Wireless Telemetry System}
 
-Our goal with the wireless telemetry for the 2009/2010 car is to multiplex the two serial streams, and send the data wirelessly using an XBee modem to multiple different receiver laptops using a receiver modem. A small software driver will split the two data streams apart, and dump the data into two different virtual serial ports on the PC. The goal with this is that the driver will allow proprietary software to run transparently without any modifications. A block diagram of the telemetry system can be seen in Figure \ref{fig:Wireless-Telemetry-Overview}.
+The ability to communicate with the car wirelessly is a very important feature of most current FSAE designs. The ECU and DAQ provide sensor information that must be accessed wirelessly. Both provide a wired RS-232 serial interface to a Windows PC running proprietary software that communicates with each device. Each program expects to talk directly to the device through a Windows COM port.
 
-A secondary goal for the telemetry system is to be able to decode and re-encode the serial stream from the DAQ. This will allow us to send data from the DAQs sensors, such as GPS and accelerometer data 
+The \emph{wireless telemetry system} provides a means for multiplexing these data streams and sending them wirelessly to laptops. The vehicle-side of the telemetry system consists of:
 
-\subsection{Hardware}
-The telemetry module will be implemented on a custom PCB with the same AT90CAN128 microcontroller common to the other modules. In addition to the common life-support hardware, the telemetry module will also include a dual RS232 trasceiver chip and 2 DSub9 connectors. The ECU and the DAQ will connect with the telemetry board with standard 9-pin serial cables. While the RS232 transceiver will interface with the AT90CAN's 2 built-in USART ports, a third UART will be needed to interface with an XBee Pro wireless modem. For this, the telemetry module will include an SPI interfaceable UART chip.
+\begin{itemize}
+\item the \emph{telemetry module}, which gathers and multiplexes the data; and
+\item the \emph{wireless transmitter}, which modulates and transmits RS-232 over wireless to a receiver.
+\end{itemize}
 
-The XBee Pro Modems from Digi International require a 3.3V power supply, and consume at most 215mA of current during transmit. Since the common module hardware provides power for only 5V devices, the telemetry module will have a second LDO regulator providing 3.3V.
+The remote-side of the telemetry system consists of:
+
+\begin{itemize}
+\item the \emph{wireless receiver}, which receives and demodulates the RS-232 signal; and
+\item the \emph{virtual serial drivers}, which demultiplexes the data and directs it to the correct programs.
+\end{itemize}
+
+\subsection{Telemetry Module}
+
+The telemetry module is implemented on a custom PCB with the same AT90CAN128 microcontroller common to the other modules. In addition to the common life-support hardware, the telemetry module includes a dual RS-232 transceiver chip and two DB-9 connectors. 
+
+The ECU and the DAQ will connect with the telemetry board with standard DB-9 style serial cables. The ECU and DAQ will interface with two built-in USART ports on the microcontroller. A third, SPI-based UART interfaces with the wireless transmitter. 
+
+\subsection{Wireless Transmitter}
+
+The wireless transmitter is an XBee Pro Modem from Digi International. The modem is in a package designed for mounting on a printed circuit board, and is attached to the telemetry module directly. This modems requires a 3.3V power supply. and consumes at most 215mA of current during transmit. Since the common module hardware only provides power for 5V devices, the telemetry module will have a second LDO regulator providing 3.3V. A separate antenna port is connected to the modem and mounted in the side of the module enclosure.
+
+\subsection{Wireless Receiver and Virtual Serial Drivers}
+
+The wireless receiver is another XBee Pro Modem with a USB interface for connecting to a laptop. Custom software written in C to demultiplex the data from the incoming XBee packets and direct them to two virtual COM ports.
 
   \begin{figure}[H]
-    \begin{centering}
-      \input{figures/telemetry_module_overview}
-    \end{centering}
+    \centering
+      \input{figures/tele_tx_overview}
+    \caption{The wireless telemetry system, transmitter side.\label{fig:tele_tx_overview}}
+  \end{figure}
 
-    \caption{Wireless Telemetry Overview\label{fig:Wireless-Telemetry-Overview}}
+  \begin{figure}[H]
+    \centering
+      \input{figures/tele_rx_overview}
+    \caption{The wireless telemetry system, receiver side.\label{fig:tele_rx_overview}}
   \end{figure}
 
   \begin{table}[H]
     \caption{Wireless Telemetry Module Components\label{tab:Wireless-Telemetry-Module}}
-    \begin{centering}
+    \centering
       \begin{tabular}{|c|c|c|}
 	\hline 
-	Part & Description & Part Number\tabularnewline
+	Part & Manufacturer & Part Number\tabularnewline
 	\hline
 	\hline
-	Wireless Modem & XBee-PRO OEM Module & XBee-PRO\tabularnewline
+	XBee-PRO OEM Module & Digi International & XBee-PRO\tabularnewline
 	\hline 
-	RS232 Transciever & Dual RS232 Trasciever & MAX232\tabularnewline
+	Dual RS232 Trasciever & Maxim Electronics & MAX232\tabularnewline
 	\hline 
-	SPI-UART & Additional SPI interfacable UART chip &
-MAX3100\tabularnewline
+	SPI-capable UART chip & Maxim Electronics & MAX3100\tabularnewline
 	\hline 
-	3v3 LDO & 300mA Low Dropout Regulator & LT1521\tabularnewline
+	300mA Low Dropout Regulator & Linear Technology & LT1521\tabularnewline
 	\hline
       \end{tabular}
-    \end{centering}
   \end{table}
-
-\subsection{Software}
 
 %
 %	Driver Interface Module

@@ -3,10 +3,11 @@
 }
 
 \begin{tikzpicture}[auto, node distance=3cm, draw=black!70, >=stealth']
-  \node [block, name=telemetry] {Telemetry};
+  \node [block, name=modem] {XBee Modem};
+  \node [block, name=telemetry, below of=modem] {Telemetry Module};
   \node [block, name=ecu, left of=telemetry, left=0.5cm] {ECU};
   \node [block, name=daq, right of=telemetry, right=0.5cm] {DAQ};
-  \node [bus, name=ant, above of=telemetry, below=1.5cm] {};
+  \node [bus, name=ant, above of=modem, below=1.5cm] {};
 
   \node [bus, name=can1, below of=telemetry, above=1.5cm, label=below:CAN Bus] {CAN Bus};
   \node [bus, name=can2, left of=can1] {};
@@ -16,7 +17,8 @@
   \draw [-, line width=3pt] (can1) -- (can2);
   \draw [-, line width=3pt] (can1) -- (can3);
 
+  \draw [<->, thick] (modem) -- node[] {} (telemetry);
   \draw [<->, thick] (telemetry) -- node[] {RS232} (ecu);
   \draw [<->, thick] (telemetry) -- node[] {RS232} (daq);
-  \draw [-, thick] (telemetry) -- node[text width=1.5cm] {XBee Modem} (ant) \antenna;
+  \draw [-, thick] (modem) -- node[text width=1.5cm] {} (ant) \antenna;
 \end{tikzpicture}
