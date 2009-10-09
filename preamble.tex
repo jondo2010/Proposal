@@ -24,6 +24,11 @@
 \usepackage{subfig}
 \usepackage{tikz}
 
+% the following is useful when we have the old nomencl.sty package
+\providecommand{\printnomenclature}{\printglossary}
+\providecommand{\makenomenclature}{\makeglossary}
+\makenomenclature
+
 % Set Margins
 \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1.5in,rmargin=1in}
 

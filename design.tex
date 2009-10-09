@@ -34,7 +34,7 @@ The three sub-systems consist of a network of electromechanical actuators, senso
 
 \subsection{Transmission System}
 
-Formula SAE cars designed at the University of Manitoba have utilized an electro-pneumatic shift actuation system for the past several years. This system is controlled electronically from the steering wheel by paddles. A compressed air cylinder is used to feed air to pneumaic pistons, which apply force to the levers on the clutch shaft and shift shaft. Binary solenoid valves apply pressure to either side of the pistons. 
+Formula SAE cars designed at the University of Manitoba have utilized an electro-pneumatic shift actuation system for the past several years. This system is controlled electronically from the steering wheel by paddles. A compressed air cylinder is used to feed air to pneumatic pistons, which apply force to the levers on the clutch shaft and shift shaft. Binary solenoid valves apply pressure to either side of the pistons. 
 
 In 2007, electronic control of the solenoid valves was realized by a set of switches on the steering wheel, which switched the low-current side of a set of relays. This in turn fed current to the valves, causing the pistons to move. In this system, the timing of the mechanical interaction with the transmission was entirely dependent on how long the driver held down the paddles. This required a lot of effort from the driver, and often resulted in missed shifts. It also caused heavy mechanical stress on the transmission. 
 
@@ -54,7 +54,7 @@ Position feedback for the clutch and gear levers is provided by rotary potentiom
 
 The shift lever does not require the same level of control as the clutch, but will utilize the same hardware to facilitate the possibility of using a stock shifting drum without gear position feedback.
 
-Sizeable consideration was made for replacing the pneumatic system with a fully electronic one. However, it was determined that the power to weight ratio of electric motors and gearboxes was far less than that of a pneumatic solution for the amount of torque required.
+Sizable consideration was made for replacing the pneumatic system with a fully electronic one. However, it was determined that the power to weight ratio of electric motors and gearboxes was far less than that of a pneumatic solution for the amount of torque required.
 
 \subsection{Starter System}
 
@@ -66,7 +66,7 @@ The starter feature will be disabled while the engine is running to avoid damagi
 
 \subsection{Intake Management System}
 
-As mentioned in section \ref{sec:ice_overview}, much research has been put into the concept of a variable intake plenum. Engineers typically design the intake length to be optimal for torque at one specific RPM. We propose an intake system which allows for the length of runners to be dynamically changed at runtime. The intake runners will be lengthened or shortened at different RPM values. This will serve to widen the torque response of the engine over a larger range of RPMs. A servo mechanism will actuate a two-position variable intake plenum. As engine RPM changes, the servo is actuated accordingly to maximize torque output.
+As mentioned in section \ref{sec:ice_overview}, much research has been put into the concept of a variable intake plenum. Engineers typically design the intake length to be optimal for torque at one specific RPM. We propose an intake system which allows for the length of runners to be dynamically changed at run time. The intake runners will be lengthened or shortened at different RPM values. This will serve to widen the torque response of the engine over a larger range of RPMs. A servo mechanism will actuate a two-position variable intake plenum. As engine RPM changes, the servo is actuated accordingly to maximize torque output.
 
 \subsection{Engine Module}
 \label{sec:engine_module}
@@ -90,7 +90,7 @@ In addition to the common life-support hardware for the microcontroller (such as
 	\end{tabular}
 \end{table}
 
-Besides controlling the transmission, starter, and intake management sub-systems, the engien controller software implements several driver control features:
+Besides controlling the transmission, starter, and intake management sub-systems, the engine controller software implements several driver control features:
 
 \begin{description}
 
@@ -98,10 +98,10 @@ Besides controlling the transmission, starter, and intake management sub-systems
 This feature of the engine module is aimed primarily at improving performance in the acceleration event. Based on known torque curves, a table of optimal shift points in the RPM range will be identified. As the engine reaches the top RPM for a given gear, the engine module will automatically upshift to the next gear, without any driver input. All the driver needs to do is maintain full throttle, and hold on.
 
 \item[Full-Throttle Launch]
-Full-throttle launch uses an important feature of the ECU called launch control. From a stand-still, the slip ratio of the driven wheels to the non-driven wheels is monitored, and the engine output power is reduced until the ratio reaches 1:1. Drivers will use this feature by maintaining full-throttle at the starting line while holding the brake pedal. As soon as the brake pedal is released, the the engine module will release the clutch in a controlled manner in an attept to get the best possible acceleration.
+Full-throttle launch uses an important feature of the ECU called launch control. From a stand-still, the slip ratio of the driven wheels to the non-driven wheels is monitored, and the engine output power is reduced until the ratio reaches 1:1. Drivers will use this feature by maintaining full-throttle at the starting line while holding the brake pedal. As soon as the brake pedal is released, the the engine module will release the clutch in a controlled manner in an attempt to get the best possible acceleration.
 
 \item[Part-Throttle Launch]
-Part-throttle launch is a feature designed to mimick an automatic transmission. By controlling the clutch position, and thereby modulating the amount of torque transferred to the wheels for a short period of time, the car can be made to creep slowly from a standstill. This will be used when driving up to the starting line of various dynamic events.
+Part-throttle launch is a feature designed to mimic an automatic transmission. By controlling the clutch position, and thereby modulating the amount of torque transferred to the wheels for a short period of time, the car can be made to creep slowly from a standstill. This will be used when driving up to the starting line of various dynamic events.
 
 \item[Neutral Find]
 As drivers come in to the pits from driving the course, a useful feature is the ability for the car to shift the transmission back into neutral to avoid stalling the car. The neutral find feature will automatically downshift the transmission repeatedly until it finds neutral.
@@ -112,7 +112,7 @@ As drivers come in to the pits from driving the course, a useful feature is the 
 % Brake System
 %
 
-\section{Brake Sytem}
+\section{Brake System}
 
 Electronic control of the brake bias is realized with the \emph{brake system}. Drivers may adjust the brake bias from cockpit controls, allowing different drivers to {}``dial-in'' their preferred bias setting. 
 
@@ -138,7 +138,7 @@ The brake module will be implemented on a custom PCB with the same AT90CAN128 mi
 
 \subsection{Calibration Sequence}
 
-The current bias position will be saved in non-volatile memory inside the microcontroller, so that calibration is not necessary on start-up. Occassionaly, the system may be calibrated by signaling the brake module to begin it's calibration sequence over the CAN bus. During calibration, the bar will move from it's furthest extents and count the number of steps required. It will then move to the centre position.
+The current bias position will be saved in non-volatile memory inside the microcontroller, so that calibration is not necessary on start-up. Occasionally, the system may be calibrated by signalling the brake module to begin it's calibration sequence over the CAN bus. During calibration, the bar will move from it's furthest extents and count the number of steps required. It will then move to the centre position.
 
 %
 % Wireless Telemetry
@@ -198,7 +198,7 @@ The wireless receiver is another XBee Pro Modem with a USB interface for connect
 	\hline
 	XBee-PRO OEM Module & Digi International & XBee-PRO\tabularnewline
 	\hline 
-	Dual RS232 Trasciever & Maxim Electronics & MAX232\tabularnewline
+	Dual RS232 Transceiver & Maxim Electronics & MAX232\tabularnewline
 	\hline 
 	SPI-capable UART chip & Maxim Electronics & MAX3100\tabularnewline
 	\hline 
@@ -222,7 +222,7 @@ Our goal for the 2009/2010 car's driver interface is to have a large monochrome 
 \item Current vehicle dynamics mode;
 \item Telemetry signal strength;
 \item Engine RPM;
-\item Vehicle wheelspeed;
+\item Vehicle wheel speed;
 \item Launch control status.
 \end{itemize}
 Additional information can be displayed by paging through information screens with a push button.
@@ -259,9 +259,9 @@ As part of the overall software control system, we want to implement a method of
   \item [{AccelMode}] Puts the cars' systems into full-performance characteristics. Launch control is activated. The transmission controller will watch for a launch signal from the driver, and will automatically up-shift based on the engine RPM.
   \item [{DynamicMode}] Will put the cars' systems into a mode that is suitable for the autocross, and the endurance race.
 \end{description}
-The different parameters for all the possible modes will be stored in flash in each of the specific modules. Once a module receives a mode change message, it is its responsibility to modify its behavior to match the requested mode. It will be possible to modify the parameters stored on the node on-the-fly through the driver interface.
+The different parameters for all the possible modes will be stored in flash in each of the specific modules. Once a module receives a mode change message, it is its responsibility to modify its behaviour to match the requested mode. It will be possible to modify the parameters stored on the node on-the-fly through the driver interface.
 
 \section{Network Tester}
 \nomenclature{CAN}{Controller Area Network}
 
-To achieve our testability goals, we will design and manufacture an independent \emph{Controller Area Network} (CAN) network tester module to allow us to interface directly with individual nodes on the network, and to test parts of the system independently of one another. The network tester will consist of a PC-interfaceable micro-controller that will run a set of test suites. Each test suite will test all functions of a given module by sending and receiving the expected messages on the network to the module. This will greatly ease the development and debugging of the software on each node.
+To achieve our testability goals, we will design and manufacture an independent \emph{Controller Area Network} (CAN) network tester module to allow us to interface directly with individual nodes on the network, and to test parts of the system independently of one another. The network tester will consist of a PC-interfacable micro-controller that will run a set of test suites. Each test suite will test all functions of a given module by sending and receiving the expected messages on the network to the module. This will greatly ease the development and debugging of the software on each node.

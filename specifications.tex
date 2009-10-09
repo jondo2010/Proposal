@@ -14,7 +14,6 @@ Specifications on what will be required from the end result deliverables of this
 \section{General Requirements}
 
 \subsection{Hardware}
-
 All designs will need to be implemented in hardware and tested and debugged on the 2010 Formula SAE vehicle.
 
 \paragraph{Elemental Resistance}
@@ -25,8 +24,6 @@ All microcontroller systems must be easy to program and debug. Programming heade
 
 \subsection{Software}
 
-\paragraph{Stability}
-
 \paragraph{Code Reuse}
 Code for all modules should be reused as much as possible to reduce the complexity of the software design.
 
@@ -36,41 +33,48 @@ All parameters used by the software that might need to be modified during testin
 \section{Engine Module}
 The engine module must be able to
 \begin{enumerate}
- \item Start the engine by energizing the starter solenoid;
- \item Activate and deactivate launch control on the ECU;
- \item 
- \item Precicely control the position of the clutch;
- \item Feather the clutch during low throttle launch;
- \item Actuate the variable intake manifold (timing requirements to be determined).
+ \item start the engine by energizing the starter solenoid;
+ \item activate and deactivate launch control on the ECU;
+ \item send appropriate shift cut signals to the ECU;
+ \item precisely control the position of the clutch;
+ \item actuate the clutch from fully engaged, to fully disengaged in less than 150 ms.
+ \item feather the clutch during low throttle launch; and
+ \item actuate the variable intake manifold (timing requirements to be determined).
 \end{enumerate}
 
 \section{Brake Module}
-Must be able to absolutely position brake bias
-Must be able to respond to changes in assembly position, etc, by recalibration
-Must be able to detect brake pedal pressure
+The brake module must be able to
+\begin{enumerate}
+ \item absolutely position the brake bias bar;
+ \item adapt to changes in assembly position, etc, by recalibration; and
+ \item detect pressure on the brake pedal.
+\end{enumerate}
 
 \section{Wireless Telemetry Module}
-
-Transparently transport data bidirectionally with the ECU over the ECUs serial
-connection and a laptop running the DTASwin tuning software.
-
-Broadcast telemetry data to one or more laptops running the Race Technology
+The wireless telemetry module must be able to
+\begin{enumerate}
+ \item transparently transport data bidirectionally with the ECU over the ECUs serial
+connection, and a laptop running the DTASwin tuning software;
+ \item broadcast telemetry data to one or more laptops running the Race Technology
 software. The serial protocol will be that of Race Technology, and data will
-come primarily from the DAQ, but also from other sensors.
-
-Send messages over the CAN network with data from the DAQ, such as
+come primarily from the DAQ, but also from other sensors; and
+ \item send messages over the CAN network with data from the DAQ, such as accelerometer data.
+\end{enumerate}
 
 \section{Driver Interface Module}
-Must be able to change vehicle dynamics mode
-Must be able to alter vehicle dynamics mode parameters on the fly
-Must be able to permanently store vehicle dynamics parameters
-Must be able to display status of:
-\begin{itemize}
-  \item Wireless telemetry (Signal strength, association status)
-  \item Engine parameters such as RPM, water temp, oil pressure, and warning lights when these are out of range
-  \item Vehicle speed (Either wheelspeed, or from the GPS)
-  \item Current gear
-\end{itemize}
-Must be able to start the engine
-Must be able to alter module-specific parameters, such as shift timing constants
-Must be able to display team logo, and certain team sponsor logos on startup.
+The driver interface module must be able to
+\begin{enumerate}
+ \item change vehicle dynamics mode;
+ \item alter vehicle dynamics mode parameters on the fly;
+ \item permanently store vehicle dynamics parameters;
+ \item display status of
+  \begin{itemize}
+    \item wireless telemetry (Signal strength, association status);
+    \item engine parameters such as RPM, water temp, oil pressure, and warning messages when these are out of range;
+    \item vehicle speed (Either wheel speed, or from the GPS); and
+    \item current gear.
+  \end{itemize}
+ \item start the engine;
+ \item alter module-specific parameters, such as shift timing constants; and
+ \item display team logo, and certain team sponsor logos on startup.
+\end{enumerate}
