@@ -8,12 +8,56 @@
 %
 
 \chapter{Proposed Design}
+\label{ch:proposed_design}
+
+Electronic control is achieved by divided the vehicle into several independent systems that communicate over a shared network. These systems include
+
+\begin{itemize}
+\item the \emph{engine} system;
+\item the \emph{braking} system;
+\item the \emph{wireless telemetry} system; and
+\item the \emph{driver interface} system.
+\end{itemize}
+
+\section{Common Design Features}
+\label{sec:common_design_features}
+
+\nomenclature{PCB}{Printed Circuit Board}
+
+At the heart of each system is a module that controls all aspects of the system's function. This module is implemented on a custom \emph{Printed Circuit Board} (PCB) with an \emph{AT90CAN128} micro-controller from Atmel. All software will be written in C and uploaded through a standard IEEE 1149.1 JTAG interface. Each module has common {}``life-support'' systems such as a voltage regulator and decoupling capacitors. A specialized 23-pin header is attached to the PCB to connect it to the inter-module network, the power supply, and whatever systems it needs to interact with.
+
+\section{Inter-module Communication}
+\label{sec:inter_module_communication}
+
+\nomenclature{CAN}{Controller Area Network}
+
+All electronic systems on the vehicle communicate over a two-wire \emph{Controller Area Network} (CAN) bus operating at 1 MBit/s. Every system module has a Microchip-brand MCP2551 CAN transceiver IC for connecting their local micro-controller to the bus, and all modules are capable of being a termination point for the bus.
+
+\begin{table}[H]
+	\caption{Common module components.}
+	\label{table:engine_module_components}
+	\centering
+	\begin{tabular}{|c|c|c|}
+		\hline 
+		Part & Manufacturer & Part Number\tabularnewline 
+		\hline \hline
+		CAN Bus Transceiver & Microchip & MCP2551\tabularnewline \hline
+		Microcontroller & Atmel & AT90CAN128\tabularnewline \hline
+		Voltage Regulator & Linear Technology & LT1129CST5\tabularnewline		
+		\hline
+	\end{tabular}
+\end{table}
+
+Testing system functionality will require a means of injecting messages onto the CAN bus that links the various modules together. To facilitate this, a \emph{network testing} module is used. This module allows us to interface directly with individual nodes on the network, and to test parts of the system independently of one another. 
+
+The network tester will consist of a PC-interfaceable micro-controller that will run a set of test suites. Each test suite will test all functions of a given module by sending and receiving the expected messages on the network to the module. This will greatly ease the development and debugging of the software on each node.
 
 %
 % Engine System
 %
 
 \section{Engine System}
+\label{sec:engine_system}
 
 The engine system consists of:
 
@@ -29,36 +73,51 @@ The three sub-systems consist of a network of electromechanical actuators, senso
 \begin{figure}[H]
 	\centering
 		\input{figures/engine_system_overview}
-	\caption{Engine System Overview\label{fig:engine_system_overview}}
+	\caption{Engine system overview.}
+	\label{fig:engine_system_overview}
 \end{figure}
 
 \subsection{Transmission System}
 
-Formula SAE cars designed at the University of Manitoba have utilized an electro-pneumatic shift actuation system for the past several years. This system is controlled electronically from the steering wheel by paddles. A compressed air cylinder is used to feed air to pneumaic pistons, which apply force to the levers on the clutch shaft and shift shaft. Binary solenoid valves apply pressure to either side of the pistons. 
+Formula SAE cars designed at the University of Manitoba have utilized an electro-pneumatic shift actuation system for the past several years. This system is controlled electronically from the steering wheel by paddles. A compressed air cylinder is used to feed air to pneumatic pistons, which apply force to the levers on the clutch shaft and shift shaft. Binary solenoid valves apply pressure to either side of the pistons. 
 
 In 2007, electronic control of the solenoid valves was realized by a set of switches on the steering wheel, which switched the low-current side of a set of relays. This in turn fed current to the valves, causing the pistons to move. In this system, the timing of the mechanical interaction with the transmission was entirely dependent on how long the driver held down the paddles. This required a lot of effort from the driver, and often resulted in missed shifts. It also caused heavy mechanical stress on the transmission. 
 
-The 2008/2009 Formula SAE car improved on the 2007 design by replacing the relays with high-current solid state drivers. The timing signals to the solenoid valves were precisely controlled with an ARM7 microcontroller. Shift timing could be programmed, and no longer depended on how long the paddles were held. This  reduced the effort required from the driver and also reduced possible driver error.
+The 2008/2009 Formula SAE car improved on the 2007 design by replacing the relays with high-current solid state drivers. The timing signals to the solenoid valves were precisely controlled with an ARM7 micro-controller. Shift timing could be programmed, and no longer depended on how long the paddles were held. This  reduced the effort required from the driver and also reduced possible driver error.
 
 Although an improvement from previous years, several inherent drawbacks to the 2008/2009 shift system exist. The air cylinder must be regularly refilled, which is a recurring expense. Air leaks were common, and air lines often came loose or melted after coming into contact with hot surfaces. 
 
 The most serious drawback of the system is that the position of the cylinders is only binary or trinary. It is only possible to engage or disengage the clutch at a constant rate, determined by the pressure in the system, the flow rate through the valves, and the diameter of the piston. To launch the car, that is, in order to smoothly increase the momentum of the car from a stand-still, requires controlling the rate at which the clutch plates return into contact with each other. This level of control is not possible with a binary pneumatic system. In order to launch the car, a hand-lever was still required.
 
-Our goal for the 2009/2010 transmission control is to further detask the driver, improve shift performance, and improve accuracy. To do so requires precise positioning of the clutch lever. This precision in control allows for a {}``partial-throttle launch'' without a hand-lever, and results in less mechanical strain on the clutch and transmission. 
+Our goal for the 2009/2010 transmission control is to further de-task the driver, improve shift performance, and improve accuracy. To do so requires precise positioning of the clutch lever. This precision in control allows for a {}``partial-throttle launch'' without a hand-lever, and results in less mechanical strain on the clutch and transmission. 
 
 \nomenclature{PWM}{Pulse Width Modulation}
 
 Precise control of the clutch lever is accomplished with a fast solenoid valve controlled by a closed loop feedback system. The fast solenoid valves are controlled with \emph{Pulse Width Modulation} (PWM), which allows precise control of the air flow into the cylinder. Physical models of the entire pneumatic system are under development in collaboration with Jose M. Ricon Ruiz, a student in the faculty of Mechanical Engineering at the University of Manitoba. Mr. Ruiz has chosen to write his thesis report on this pneumatic system. 
 
-Position feedback for the clutch and gear levers is provided by rotary potentiometers. Current gear position is determined with a potentiometer that is mechanically linked to the shift drum. Control and timing are generated by a microcontroller.
+Position feedback for the clutch and gear levers is provided by rotary potentiometers. Current gear position is determined with a potentiometer that is mechanically linked to the shift drum. Control and timing are generated by a micro-controller.
 
 The shift lever does not require the same level of control as the clutch, but will utilize the same hardware to facilitate the possibility of using a stock shifting drum without gear position feedback.
+
+\begin{figure}[H]
+	\centering
+		\input{figures/transmission_system_overview}
+	\caption{Transmission system overview.}
+	\label{fig:transmission_system_overview}
+\end{figure}
 
 Sizeable consideration was made for replacing the pneumatic system with a fully electronic one. However, it was determined that the power to weight ratio of electric motors and gearboxes was far less than that of a pneumatic solution for the amount of torque required.
 
 \subsection{Starter System}
 
 The starter solenoid is energized by signals from the engine controller. The driver may choose between an \emph{automatic} or \emph{manual} starting sequence. The \emph{driver interface module} (described in section \ref{sec:driver_interface}) relays the particular starting sequence command to the engine controller through the CAN bus.
+
+\begin{figure}[H]
+	\centering
+		\input{figures/starter_system_overview}
+	\caption{Starter system overview.}
+	\label{fig:starter_system_overview}
+\end{figure}
 
 The \emph{automatic} starting sequence will power the starter solenoid until either the engine starts or a timeout elapses. In this case, the timeout is five seconds. The \emph{manual} starting sequence will engage the starter for as long as the driver demands, much like holding the key in the start position in a standard consumer automobile ignition system. 
 
@@ -68,29 +127,34 @@ The starter feature will be disabled while the engine is running to avoid damagi
 
 As mentioned in section \ref{sec:ice_overview}, much research has been put into the concept of a variable intake plenum. Engineers typically design the intake length to be optimal for torque at one specific RPM. We propose an intake system which allows for the length of runners to be dynamically changed at runtime. The intake runners will be lengthened or shortened at different RPM values. This will serve to widen the torque response of the engine over a larger range of RPMs. A servo mechanism will actuate a two-position variable intake plenum. As engine RPM changes, the servo is actuated accordingly to maximize torque output.
 
+\begin{figure}[H]
+	\centering
+		\input{figures/intake_system_overview}
+	\caption{Intake system overview.}
+	\label{fig:intake_system_overview}
+\end{figure}
+
 \subsection{Engine Module}
 \label{sec:engine_module}
 
-The \emph{engine module} is implemented on a custom PCB with an \emph{AT90CAN128} microcontroller from Atmel. All software for the microcontroller will be written in C and uploaded through a standard IEEE 1149.1 JTAG interface. 
+The \emph{engine module} is implemented on a custom PCB with an \emph{AT90CAN128} micro-controller from Atmel. All software for the micro-controller will be written in C and uploaded through a standard IEEE 1149.1 JTAG interface. The module is linked to the other system modules with a CAN bus. All inter-module communication is done over the CAN bus.
 
-In addition to the common life-support hardware for the microcontroller (such as the voltage regulator and decoupling capacitors), the engine module will include an SPI capable octal \emph{low-side solenoid driver}. This driver chip will switch the low side of the solenoid valves, as well as the starter solenoid. It includes flyback protection circuitry to squash voltage spikes from the inductive load of the solenoid, and can also detect electrical shorts. 
+In addition to the common life-support hardware for the micro-controller (such as the voltage regulator and decoupling capacitors), the engine module will include an SPI capable octal \emph{low-side solenoid driver}. This driver chip will switch the low side of the solenoid valves, as well as the starter solenoid. It includes flyback protection circuitry to squash voltage spikes from the inductive load of the solenoid, and can also detect electrical shorts. 
 
 \begin{table}[H]
-	\caption{Engine Module Components\label{tab:Engine-Module}}
+	\caption{Engine module components.}
+	\label{table:engine_module_components}
 	\centering
 	\begin{tabular}{|c|c|c|}
 		\hline 
 		Part & Manufacturer & Part Number\tabularnewline 
 		\hline \hline
-		CANBUS Transceiver & Microchip & MCP2551\tabularnewline \hline
-		Microcontroller & Atmel & AT90CAN128\tabularnewline \hline
 		Solenoid Driver & ST Microelectronics & L9822E\tabularnewline \hline
-		Voltage Regulator & Linear Technology & LT1129CST5\tabularnewline		
 		\hline
 	\end{tabular}
 \end{table}
 
-Besides controlling the transmission, starter, and intake management sub-systems, the engien controller software implements several driver control features:
+Besides controlling the transmission, starter, and intake management sub-systems, the engine controller software implements several driver control features:
 
 \begin{description}
 
@@ -98,10 +162,10 @@ Besides controlling the transmission, starter, and intake management sub-systems
 This feature of the engine module is aimed primarily at improving performance in the acceleration event. Based on known torque curves, a table of optimal shift points in the RPM range will be identified. As the engine reaches the top RPM for a given gear, the engine module will automatically upshift to the next gear, without any driver input. All the driver needs to do is maintain full throttle, and hold on.
 
 \item[Full-Throttle Launch]
-Full-throttle launch uses an important feature of the ECU called launch control. From a stand-still, the slip ratio of the driven wheels to the non-driven wheels is monitored, and the engine output power is reduced until the ratio reaches 1:1. Drivers will use this feature by maintaining full-throttle at the starting line while holding the brake pedal. As soon as the brake pedal is released, the the engine module will release the clutch in a controlled manner in an attept to get the best possible acceleration.
+Full-throttle launch uses an important feature of the ECU called launch control. From a stand-still, the slip ratio of the driven wheels to the non-driven wheels is monitored, and the engine output power is reduced until the ratio reaches 1:1. Drivers will use this feature by maintaining full-throttle at the starting line while holding the brake pedal. As soon as the brake pedal is released, the the engine module will release the clutch in a controlled manner in an attempt to get the best possible acceleration.
 
 \item[Part-Throttle Launch]
-Part-throttle launch is a feature designed to mimick an automatic transmission. By controlling the clutch position, and thereby modulating the amount of torque transferred to the wheels for a short period of time, the car can be made to creep slowly from a standstill. This will be used when driving up to the starting line of various dynamic events.
+Part-throttle launch is a feature designed to mimic an automatic transmission. By controlling the clutch position, and thereby modulating the amount of torque transferred to the wheels for a short period of time, the car can be made to creep slowly from a standstill. This will be used when driving up to the starting line of various dynamic events.
 
 \item[Neutral Find]
 As drivers come in to the pits from driving the course, a useful feature is the ability for the car to shift the transmission back into neutral to avoid stalling the car. The neutral find feature will automatically downshift the transmission repeatedly until it finds neutral.
@@ -112,7 +176,8 @@ As drivers come in to the pits from driving the course, a useful feature is the 
 % Brake System
 %
 
-\section{Brake Sytem}
+\section{Brake System}
+\label{brake_system}
 
 Electronic control of the brake bias is realized with the \emph{brake system}. Drivers may adjust the brake bias from cockpit controls, allowing different drivers to {}``dial-in'' their preferred bias setting. 
 
@@ -134,17 +199,18 @@ Automatic calibration is enabled by sensing the furthest extents in both directi
 
 \subsection{Brake Module}
 
-The brake module will be implemented on a custom PCB with the same AT90CAN128 microcontroller common to the other modules. In addition to the common life-support hardware, the brake module will include a stepper motor driver to generate the complex output signals required to drive the stepper motor.
+The brake module will be implemented on a custom PCB with the same AT90CAN128 micro-controller common to the other modules. In addition to the common life-support hardware, the brake module will include a stepper motor driver to generate the complex output signals required to drive the stepper motor.
 
 \subsection{Calibration Sequence}
 
-The current bias position will be saved in non-volatile memory inside the microcontroller, so that calibration is not necessary on start-up. Occassionaly, the system may be calibrated by signaling the brake module to begin it's calibration sequence over the CAN bus. During calibration, the bar will move from it's furthest extents and count the number of steps required. It will then move to the centre position.
+The current bias position will be saved in non-volatile memory inside the micro-controller, so that calibration is not necessary on start-up. Occasionally, the system may be calibrated by signalling the brake module to begin it's calibration sequence over the CAN bus. During calibration, the bar will move from it's furthest extents and count the number of steps required. It will then move to the centre position.
 
 %
 % Wireless Telemetry
 %
 
 \section{Wireless Telemetry System}
+\label{wireless_telemetry_system}
 
 The ability to communicate with the car wirelessly is a very important feature of most current FSAE designs. The ECU and DAQ provide sensor information that must be accessed wirelessly. Both provide a wired RS-232 serial interface to a Windows PC running proprietary software that communicates with each device. Each program expects to talk directly to the device through a Windows COM port.
 
@@ -164,9 +230,9 @@ The remote-side of the telemetry system consists of:
 
 \subsection{Telemetry Module}
 
-The telemetry module is implemented on a custom PCB with the same AT90CAN128 microcontroller common to the other modules. In addition to the common life-support hardware, the telemetry module includes a dual RS-232 transceiver chip and two DB-9 connectors. 
+The telemetry module is implemented on a custom PCB with the same AT90CAN128 micro-controller common to the other modules. In addition to the common life-support hardware, the telemetry module includes a dual RS-232 transceiver chip and two DB-9 connectors. 
 
-The ECU and the DAQ will connect with the telemetry board with standard DB-9 style serial cables. The ECU and DAQ will interface with two built-in USART ports on the microcontroller. A third, SPI-based UART interfaces with the wireless transmitter. 
+The ECU and the DAQ will connect with the telemetry board with standard DB-9 style serial cables. The ECU and DAQ will interface with two built-in USART ports on the micro-controller. A third, SPI-based UART interfaces with the wireless transmitter. 
 
 \subsection{Wireless Transmitter}
 
@@ -198,7 +264,7 @@ The wireless receiver is another XBee Pro Modem with a USB interface for connect
 	\hline
 	XBee-PRO OEM Module & Digi International & XBee-PRO\tabularnewline
 	\hline 
-	Dual RS232 Trasciever & Maxim Electronics & MAX232\tabularnewline
+	Dual RS232 Transceiver & Maxim Electronics & MAX232\tabularnewline
 	\hline 
 	SPI-capable UART chip & Maxim Electronics & MAX3100\tabularnewline
 	\hline 
@@ -208,60 +274,107 @@ The wireless receiver is another XBee Pro Modem with a USB interface for connect
   \end{table}
 
 %
-%	Driver Interface Module
+%	Driver Interface System
 %
 
-\section{Driver Interface Module}
+\section{Driver Interface System}
+\label{sec:driver_interface_system}
+
 \nomenclature{LCD}{Liquid Crystal Display}
 
-A major design concern with the Formula SAE car is driver control and feedback. In previous years, the team has often been hindered by a lack of direct information from the electronic systems in the car. While the team will benefit from having wireless telemetry data available, it will be beneficial to get diagnostics directly from the car, as well as inform the driver about current data.
+In previous years, the team has often been hindered by a lack of direct information from the electronic systems in the car. The driver interface module aims to remedy this by providing information to the driver in real-time, and to allow the driver to control aspects of the electronic control systems.
 
-Our goal for the 2009/2010 car's driver interface is to have a large monochrome \emph{Liquid Crystal Display} (LCD) screen inset in the steering wheel providing real-time information to the driver about all the electronic systems in the car. The LCD module will be an off the shelf module complete with controller, character RAM, and LCD drivers. It will provide an 8-bit parallel interface to the microcontroller. Primary information that we want to display to the driver consists of:
+The driver interface system consists of
+
 \begin{itemize}
-\item Current gear;
-\item Current vehicle dynamics mode;
-\item Telemetry signal strength;
-\item Engine RPM;
-\item Vehicle wheelspeed;
-\item Launch control status.
+\item \emph{driver controls}, which are tactile inputs for adjusting vehicle dynamics; 
+\item the \emph{information display panel}, which displays vehicle information to the driver; and
+\item the \emph{driver interface module} which collects information from the driver controls and other modules in the system and relays them to the driver through the information display panel, and also relays driver inputs to the other modules.
 \end{itemize}
-Additional information can be displayed by paging through information screens with a push button.
-
-We also want to be able to change various run-time parameters through the driver interface.
 
 \begin{table}[H]
-\caption{Steering Wheel Components\label{tab:Steering-Wheel-Components}}
-
-\centering{}\begin{tabular}{|c|>{\centering}p{15em}|c|}
-\hline 
-Part & Description & Part Number\tabularnewline
-\hline
-\hline 
-LCD Screen & Newhaven Display 320x240 Monochrome, Transflective, LCD & NHD-320240WX\tabularnewline
-\hline 
-LCD Controller & RAiO Dot Matrix LCD Controller & RA8835\tabularnewline
-\hline 
-Rotary Dials & Bourns Inc. ECW detented rotary encoder & ECW1J-B24-BC0024L-ND\tabularnewline
-\hline
-\end{tabular}
+	\caption{Driver interface components.}
+	\label{table:driver_interface_components}
+	\centering
+	\begin{tabular}{|c|c|c|}
+		\hline 
+		Part & Manufacturer & Part Number\tabularnewline
+		\hline
+		\hline 
+		Monochrome Transflective LCD & Newhaven & NHD-320240WX\tabularnewline
+		\hline 
+		Dot Matrix LCD Controller & RAiO & RA8835\tabularnewline
+		\hline 
+		ECW detented Rotary Encoder & Bourns Inc. & ECW1J-B24-BC0024L-ND\tabularnewline
+		\hline
+	\end{tabular}
 \end{table}
-
-\subsection{Mechanical}
-\subsection{Hardware}
-\subsection{Software}
 
 \subsection{Vehicle Dynamics Mode (VDM)}
 \nomenclature{VDM}{Vehicle Dynamics Mode}
 
-As part of the overall software control system, we want to implement a method of quickly modifying system behaviour, and several dynamic vehicle parameters quickly and easily. For example, during the acceleration event at competition, we want to enable launch control, enable auto-upshift, and perhaps have a firmer suspension setting. This will be possible all in one step by changing the Vehicle Dynamics Mode to {}``acceleration''. All nodes on the network will be synchronized to modify their parameters in accordance with the specific mode.
+The driver interface system provides a method of quickly modifying several dynamic vehicle parameters quickly and easily. For example, an acceleration event calls for launch control, auto-upshift, and a heavy forward brake bias. It is possible to enable all of these features in one step by changing the VDM mode to {}``acceleration''. 
+
+When a new mode is selected, all nodes on the network are notified and synchronized to modify their dynamic parameters in accordance with the specific mode. For example, when the  {}``acceleration'' mode is enabled, the engine module will enable launch control and auto-upshift, and the brake controller will modify the brake bias to a pre-set ratio.
+
 \begin{description}
-  \item [{PitMode}] Enables soft-launch driving characteristics that mimic a fully automatic transmission. This makes slowly driving the car forward from a standstill far easier, and only requires the driver to take his left foot off the brake, and slightly apply the throttle.
-  \item [{AccelMode}] Puts the cars' systems into full-performance characteristics. Launch control is activated. The transmission controller will watch for a launch signal from the driver, and will automatically up-shift based on the engine RPM.
-  \item [{DynamicMode}] Will put the cars' systems into a mode that is suitable for the autocross, and the endurance race.
+  \item [{Pit Mode}] enables soft-launch driving characteristics that mimic a fully automatic transmission. This makes slowly driving the car forward from a stand-still far easier, and only requires the driver to take their left foot off the brake, and slightly apply the throttle.
+  \item [{Acceleration Mode}] puts the vehicle systems into full-performance characteristics. Launch control is activated. The engine module will watch for a launch signal from the driver, and will automatically up-shift based on the engine RPM.
+  \item [{Dynamic Mode}] puts the vehicle systems into a mode that is suitable for the autocross, and the endurance race.
 \end{description}
-The different parameters for all the possible modes will be stored in flash in each of the specific modules. Once a module receives a mode change message, it is its responsibility to modify its behavior to match the requested mode. It will be possible to modify the parameters stored on the node on-the-fly through the driver interface.
 
-\section{Network Tester}
-\nomenclature{CAN}{Controller Area Network}
+\subsection{Driver Controls}
 
-To achieve our testability goals, we will design and manufacture an independent \emph{Controller Area Network} (CAN) network tester module to allow us to interface directly with individual nodes on the network, and to test parts of the system independently of one another. The network tester will consist of a PC-interfaceable micro-controller that will run a set of test suites. Each test suite will test all functions of a given module by sending and receiving the expected messages on the network to the module. This will greatly ease the development and debugging of the software on each node.
+The driver controls consist of three rotary encoder knobs and three buttons. See table \ref{table:driver_controls} for a description of each.
+
+\begin{table}[H]
+	\caption{Available driver controls.\label{table:driver_controls}}
+	\centering
+	\begin{tabular}{|c|c|p{8 cm}|}
+		\hline 
+		Type & Name & Description \\
+		\hline
+		\hline 
+		Rotary & VDM & Changes the current VDM setting. \\
+		\hline 
+		Rotary & Option & Changes the currently selected menu option. \\
+		\hline
+		Rotary & Adjust & Adjusts the value associated with the currently selected menu option. \\
+		\hline
+		Button & Starter & Engages the automatic start sequence if pressed once, or the manual start sequence if held down.\\
+		\hline
+		Button & Neutral Find & Activates the neutral-find feature. \\
+		\hline
+		Button & Diagnostics/Save & Pages through diagnostic information if pressed once, or saves the current dynamic settings to the selected VDM if held down.\\		
+		\hline 		
+	\end{tabular}
+\end{table}
+
+\begin{description}
+	\item[VDM] 
+
+\end{description}
+
+The driver may use the \emph{Option} knob to select various vehicle dynamics to adjust. Once the desired option is selected, the \emph{Adjust} knob can be rotated to adjust the dynamic. The driver may hold the \emph{Save} button to overwrite the current VDM settings with the newly entered parameters. 
+
+\subsection{Information Display Panel}
+
+The interface display panel is a large monochrome \emph{Liquid Crystal Display} (LCD) screen, inset into the steering wheel. The panel provides real-time information to the driver regarding all of the electronic systems in the car. The LCD  is an off the shelf module, complete with controller, character RAM, and drivers. It will provide an 8-bit parallel interface to the micro-controller. 
+
+Primary information displayed on the panel includes
+
+\begin{itemize}
+\item the selected gear;
+\item the active \emph{vehicle dynamics mode} (VDM);
+\item the telemetry signal strength;
+\item the engine RPM;
+\item the vehicle wheel speed; and
+\item the status of the launch control feature.
+\end{itemize}
+
+The list of available options and the current value for the selected option is displayed on screen when the driver rotates the option dial. After a timeout period, normal real-time information display resumes. 
+
+\subsection{Driver Interface Module}
+
+The brake module will be implemented on a custom PCB with the same AT90CAN128 micro-controller common to the other modules. In addition to the common life-support hardware, the brake module will include a stepper motor driver to generate the complex output signals required to drive the stepper motor.
+
