@@ -22,7 +22,7 @@ The vehicle as a whole is primarily a mechanical device, but carries several cri
 
 \nomenclature{MAP}{Manifold Absolute Pressure}
 \nomenclature{ECU}{Engine Control Unit}
-\nomenclature{DAQ}{Data Aquisition device, provides and logs high-performance GPS, accelerometer, and ADC input data}
+\nomenclature{DAQ}{Data Acquisition device, provides and logs high-performance GPS, accelerometer, and ADC input data}
 \nomenclature{GPS}{Global Positioning System}
 
 The ICE is the stock \emph{Honda CBR600F4i} motorcycle engine. It is a 600 cm$^3$ super-sport class engine with an internal 6-speed chain driven transmission. 
@@ -51,7 +51,7 @@ The engine has a set of sensors attached to it, including
 
 \paragraph{Electronic Control Possibilities}
 
-Several tasks and responsibilites are best accomplished by electronic means, i.e.,
+Several tasks and responsibilities are best accomplished by electronic means, i.e.,
 
 \begin{itemize}
 \item the fuel injectors must be provided with timing signals;
@@ -84,9 +84,9 @@ The ICE has an internal 6-speed manual transmission. The first, fifth, and sixth
 
 The clutch is actuated by a lever attached to the engine body. a pre-tensioned spring keeps the clutch engaged when there is no force on the lever. As force is applied to the lever, the clutch is gradually disengaged. The relationship between lever position the distance between the clutch plate and flywheel is non-linear. 
 
-The gear selector is also acutated by a lever attached to the engine body. The gear selector may be rotated in either direction from its rest point. Up-shifting is accomplished by rotating the lever in one direction, while down-shifting is accomplished by rotating the lever in the opposite direction. 
+The gear selector is also actuated by a lever attached to the engine body. The gear selector may be rotated in either direction from its rest point. Up-shifting is accomplished by rotating the lever in one direction, while down-shifting is accomplished by rotating the lever in the opposite direction. 
 
-Opearting a purely mechanical manual transmission is taxing on the driver, and requires levers and linkages in the cockpit. Ideally, shifting between gears should happen as quickly as possible and require as little of the driver's attention as possible. Engagment of the clutch should be as smooth as possible. 
+Operating a purely mechanical manual transmission is taxing on the driver, and requires levers and linkages in the cockpit. Ideally, shifting between gears should happen as quickly as possible and require as little of the driver's attention as possible. Engagement of the clutch should be as smooth as possible. 
 
 \paragraph{Intake}
 
@@ -94,7 +94,7 @@ The intake consists of several parts, including the \emph{throttle-body}, \emph{
 
 As the intake valves on the engine open, they generate negative pressure waves that travel the length of the intake runners and back into the intake plenum. There, they reflect and travel back towards the intake valve. This reflection towards the intake valves can act to increase pressure at the valve and increase power.
 
-A fair amount of research has been done in previous years on the intake and exhaust design for the Formla SAE car. Former UMSAE engine section head Lucas Groening wrote an undergraduate thesis on modelling of the engine package for the 2008 Formula car. One important dynamic aspect of the engine design that he describes is the effect of the intake runner length on the torque output of the engine at different RPM \cite{Modelingof20}. 
+A fair amount of research has been done in previous years on the intake and exhaust design for the Formula SAE car. Former UMSAE engine section head Lucas Groening wrote an undergraduate thesis on modelling of the engine package for the 2008 Formula car. One important dynamic aspect of the engine design that he describes is the effect of the intake runner length on the torque output of the engine at different RPM \cite{Modelingof20}. 
 
 From figure \ref{fig:irl_effect}, we see the two distinct torque peaks that occur at different RPMs vary depending on intake plenum length. Different plenum lengths cause the two torque peaks to occur at different RPMs. An electronic means of modulating the length of the runners to maximize engine torque would dramatically improve engine performance.
 
@@ -105,9 +105,9 @@ From figure \ref{fig:irl_effect}, we see the two distinct torque peaks that occu
     \label{fig:irl_effect}
 \end{figure}
 
-\paragraph{Data Aquistion Device (DAQ)}
+\paragraph{Data Acquisition Device (DAQ)}
 
-Another specialized third-party component called the \emph{Data Aquisition Device} (DAQ) is used to log and relay sensor data to other electronic devices.
+Another specialized third-party component called the \emph{Data Acquisition Device} (DAQ) is used to log and relay sensor data to other electronic devices.
 
 The particular DAQ used is the model DL1 from Race Technology \cite{DL1Dsheet}. The DL1 is an expandable data logger with built-in 20-Hz GPS and 3-axis accelerometer. Race Technology provides a software suite that communicates with the DAQ using a documented serial protocol. Every item that the DAQ logs is output to its own channel in real time on the serial bus. It is also possible to configure the software to recognize new channels for arbitrary types of data. 
 
@@ -121,7 +121,7 @@ The particular DAQ used is the model DL1 from Race Technology \cite{DL1Dsheet}. 
 \section{Braking System}
 \label{sec:brake-overview}
 
-The braking system on the 2010 Formula vehicle is a hydraulically-controlled, \emph{disc brake} system. Hydraulic pressure causes calipers on each wheel to squeeze friction pads against the discs, thus braking the vehicle. There are two entirely independant closed hydraulic systems, one for the front brakes and the other for the rear brakes. If one of the systems fails, the other system may be used to safely stop the vehice.
+The braking system on the 2010 Formula vehicle is a hydraulically-controlled, \emph{disc brake} system. Hydraulic pressure causes callipers on each wheel to squeeze friction pads against the discs, thus braking the vehicle. There are two entirely independent closed hydraulic systems, one for the front brakes and the other for the rear brakes. If one of the systems fails, the other system may be used to safely stop the vehicle.
 
 \paragraph{Brake Pedal, Master Cylinders and Balance Bar}
 
@@ -142,11 +142,11 @@ Most of the vehicle weight is in the rear, where the engine is mounted. During b
 
 \paragraph{Adjusting Shaft}
 
-The relative force provided to each brake master cylinder can be changed by rotating an \emph{adjusting shaft} on the balance bar. When the adjusting shaft is centered between the front and rear cylinders, an equal amount of force will be applied to each. The relationship between the deviation of the adjusting shaft from it's centre position and the relative force applied to each cylinder is approximately linear for a range between 65/35 and 35/65. See table \ref{table:bb_force_distribution} for more details.
+The relative force provided to each brake master cylinder can be changed by rotating an \emph{adjusting shaft} on the balance bar. When the adjusting shaft is centred between the front and rear cylinders, an equal amount of force will be applied to each. The relationship between the deviation of the adjusting shaft from it's centre position and the relative force applied to each cylinder is approximately linear for a range between 65/35 and 35/65. See table \ref{table:bb_force_distribution} for more details.
 
 \begin{table}[H]
 	\centering
-	\caption{Braking force distribution}
+	\caption{Braking force distribution.}
 	\label{table:bb_force_distribution}	
 	\begin{tabular}{| l | c | c |}
 		\hline Adjustment Rod Position & Left Clevis & Right Clevis  \\ \hline

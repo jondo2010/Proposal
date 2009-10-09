@@ -1,8 +1,0 @@
-\begin{tikzpicture}[auto, node distance=2cm, draw=black!70, >=stealth']
-  \node [block] (engine) {Engine Module};
-  \node [block, right of=engine, right] (servo) {Intake Servo};
-  \node [block, right of=servo, right] (plenum) {Variable Intake Plenum};
-
-  \draw [->] (engine) -- (servo);
-  \draw [->, dashed] (servo) -- (plenum);
-\end{tikzpicture}

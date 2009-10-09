@@ -1,45 +1,30 @@
-% Block diagram of engine module
-\begin{tikzpicture}[
-    auto,
-    node distance=2.5cm,
-    draw=black!70,
-    >=stealth']
+\begin{tikzpicture}[auto, node distance=2.5cm, draw=black!70, >=stealth']
+  \node [bus, name=can1] {};
+  \node [bus, name=can2, below of=can1] {};
+  \node [bus, name=can3, below of=can2] {};
+  \node [bus, name=can4, below of=can3, above=1cm] {};
 
-    \node [bus, name=bus1] {};
-    \node [bus, name=bus2, right of=bus1] {};
-    \node [bus, name=bus3, right of=bus2, right=1cm] {};
-    \node [bus, name=bus4, right of=bus3, right=1cm] {};
-    \node [bus, name=bus5, right of=bus4] {};
+  \draw [-, line width=2pt] (can1) -- (can2);
+  \draw [-, line width=2pt] (can2) -- node[rotate=90, above] {CAN Bus} (can3);
+  \draw [-, line width=2pt] (can3) -- (can4);
 
-    %\draw [-, line width=3pt, densely dashed] (bus1) to (bus2);
-    \draw [-, line width=3pt] (bus2) -- (bus3) -- (bus4);
-    %\draw [-, line width=3pt, densely dashed] (bus5) to (bus6);
-    \draw [-, line width=3pt] node[bus, left of=bus1] {} -- (bus1);
+  \node [bus, above of=can1, below=1cm] (tip1) {};
+  \node [bus, below of=can4, above=1cm] (tip2) {};
+  \draw [-, densely dashed, line width=2pt] (can1) -- (tip1);
+  \draw [-, densely dashed, line width=2pt] (can4) -- (tip2);
 
-    \node [block, name=ecu, below of=bus4, above=0.25cm] {ECU};
-    \node [block, name=enginemod, below of=bus3, above=0.25cm] {Engine Module};
+  \node [block, right of=can2, right, text width=8em] (engine) {Engine Module};
+  \node [block, right of=can3, right, text width=8em] (ecu) {ECU};
 
-    \draw [<->, thick, double] (ecu) to (bus4);
-    \draw [<->, thick, double] (enginemod) to (bus3);
+  \node [block, right of=engine, right, text width=8em] (starter) {Starter System};
+  \node [block, right of=ecu, right, text width=8em] (intake) {Intake System};
+  \node [block, above of=starter, text width=8em] (transmission) {Transmission System};
 
-    \node [block, name=shift_v, below of=enginemod] {Shift Valve};
-    \node [block, name=shift_c, below of=shift_v] {Shift Cylinder};
-    
-    \node [block, name=servo, below of=ecu] {Intake Servo};
-    \node [block, name=valve, below of=servo] {Variable Intake Valve};
+  \draw [<->] (engine) -- (ecu);
+  \draw [<->] (engine.south east) -- (intake.north west);
+  \draw [<->] (engine) -- (starter);
+  \draw [<->] (engine.north east) -- (transmission.south west);
 
-    \node [block, name=clutch_v, below of=bus2, above=0.25cm] {Clutch Valve};
-    \node [block, name=clutch_c, below of=clutch_v] {Clutch Cylinder};
-    \node [block, name=position, below of=clutch_c] {Position Sensor};
-
-    \draw [->] ( $(enginemod.south)!0.5!(enginemod.south east)$ ) -- ++(0,-0.75) -| (servo);
-    \draw [-, dashed] (servo) to (valve);
-
-    \draw [->] (enginemod) to (shift_v);
-    \draw [-, dashed] (shift_v) to (shift_c);
-
-    \draw [->] (enginemod) to (clutch_v);
-    \draw [-, dashed] (clutch_v) to (clutch_c);
-    \draw [-, dashed] (position) to (clutch_c);
-    \draw [->] (position.east) -- ++(0.5,0) -- ++(0,3.5) -| ($(enginemod.south)!0.5!(enginemod.south west)$);
+  \draw [<->, line width=2pt] (can2) -- (engine);
+  \draw [<->, line width=2pt] (can3) -- (ecu);
 \end{tikzpicture}
