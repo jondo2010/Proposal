@@ -13,16 +13,16 @@
 \usepackage[T1]{fontenc}
 \usepackage[latin9]{inputenc}
 
-\usepackage{babel}
 \usepackage{array}
-\usepackage{float}
-\usepackage{graphicx}
-\usepackage{nomencl}
+\usepackage{babel}
 \usepackage{fancyhdr}
-\usepackage{tikz}
-\usepackage{lastpage}
-\usepackage{subfigure}
+\usepackage{float}
 \usepackage[letterpaper]{geometry}
+\usepackage{graphicx}
+\usepackage{lastpage}
+\usepackage{nomencl}
+\usepackage{subfig}
+\usepackage{tikz}
 
 % Set Margins
 \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1.5in,rmargin=1in}
@@ -46,6 +46,7 @@
 }
 
 \usetikzlibrary{shapes,arrows,shadows,calc}
+
 \tikzstyle{block} = [ draw=red!50!black!50, % 50% red, 50% black
 		      top color=white,
 		      bottom color=red!50!black!20,
@@ -58,6 +59,8 @@
 		      text width=2cm,
 		      text centered]
 \tikzstyle{bus} = [coordinate]
+\tikzstyle{input} = [coordinate]
+\tikzstyle{output} = [coordinate]
 
 \usepackage[
   unicode=true,
