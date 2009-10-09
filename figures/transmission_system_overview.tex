@@ -1,0 +1,30 @@
+\begin{tikzpicture} [auto, node distance=2cm, draw=black!70, >=stealth', text width=1cm, minimum width=1.5cm]
+  \node [block, minimum width=12cm, text width=5cm] (engine) {Engine Module};
+
+  \node [small block] at ($(engine.south east)!0.1!(engine.south west)+(0,-1.5cm)$) (clutch_valve) {Clutch Valve};
+  \node [small block] at ($(engine.south east)!0.5!(engine.south west)+(0,-1.5cm)$) (shift_valve) {Shift Valve};
+  \node [small block] at ($(engine.south east)!0.9!(engine.south west)+(0,-1.5cm)$) (gear_pot) {Gear Pot};
+
+  \node [small block, text width=1.5cm, below of=clutch_valve] (clutch_cylinder) {Clutch Cylinder};
+  \node [small block, below of=clutch_cylinder] (clutch_lever) {Clutch Lever};
+  \node [small block, text width=1.5cm, left of=clutch_cylinder, left=-0.25cm] (position_sensor) {Position Sensor};
+  \node [small block, text width=1.5cm, below of=shift_valve] (shift_cylinder) {Shift Cylinder};
+  \node [small block, below of=shift_cylinder] (shift_lever) {Shift Lever};
+  \node [small block, text width=1.5cm, left of=shift_cylinder, left=-0.25cm] (position_sensor2) {Position Sensor};
+  \node [small block, below of=gear_pot] (shift_drum) {Shift Drum};
+
+  \draw [->] ($(engine.south east)!0.1!(engine.south west)$) -- (clutch_valve);
+  \draw [->, dashed] (clutch_valve) -- (clutch_cylinder);
+  \draw [->, dashed] (clutch_cylinder) -- (position_sensor);
+  \draw [->, dashed] (clutch_cylinder) -- (clutch_lever);
+  \draw [->] (position_sensor) -- ($(engine.south east)!0.1!(engine.south west)+(-2.70cm,0)$);
+
+  \draw [->] ($(engine.south east)!0.5!(engine.south west)$) -- (shift_valve);
+  \draw [->, dashed] (shift_valve) -- (shift_cylinder);
+  \draw [->, dashed] (shift_cylinder) -- (shift_lever);
+  \draw [->, dashed] (shift_cylinder) -- (position_sensor2);
+  \draw [->] (position_sensor2) -- ($(engine.south east)!0.5!(engine.south west)+(-2.70cm,0)$);
+
+  \draw [<-] ($(engine.south east)!0.9!(engine.south west)$) -- (gear_pot);
+  \draw [<-, dashed] (gear_pot) -- (shift_drum);
+\end{tikzpicture}
