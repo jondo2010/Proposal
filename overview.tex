@@ -34,6 +34,8 @@ The ICE is the stock \emph{Honda CBR600F4i} motorcycle engine. It is a 600 cm$^3
     \label{fig:cbr600f4i_engine}
 \end{figure}
 
+\paragraph{Sensors}
+
 The engine has a set of sensors attached to it, including
 
 \begin{itemize}
@@ -47,6 +49,8 @@ The engine has a set of sensors attached to it, including
 \item an output shaft speed sensor.
 \end{itemize}
 
+\paragraph{Electronic Control Possibilities}
+
 Several tasks and responsibilites are best accomplished by electronic means, i.e.,
 
 \begin{itemize}
@@ -59,6 +63,8 @@ Several tasks and responsibilites are best accomplished by electronic means, i.e
 \item sensor outputs must be logged and relayed to team members wirelessly.
 \end{itemize}
 
+\paragraph{Engine Control Unit (ECU)}
+
 A specialized third-party component called the \emph{Engine Control Unit} (ECU) controls the fuel injector and spark coil systems that in turn control the combustion cycle of the engine. The particular model of ECU used by the Formula SAE car is the S80Pro from DTAFast \cite{s60pro}. The ECU uses the O$_{2}$, MAP, cam position, and crank position sensors to adjust the fuel injector and spark coil timings. This keeps the engine running smoothly. The ECU features a traction control system that monitors wheel slip and cuts spark and fuel to provide traction when one of the wheels is slipping. The ECU also collects the various sensor readings and makes them available to other electronic devices at a fixed frequency through a shared data bus. 
 
 \begin{figure}[H]
@@ -68,7 +74,11 @@ A specialized third-party component called the \emph{Engine Control Unit} (ECU) 
     \label{fig:s80pro_product}
 \end{figure}
 
+\paragraph{Starting the ICE}
+
 The ICE is started by energizing a \emph{starter solenoid}. This solenoid relays a large electric current to the \emph{starter motor}, which turns over the engine and causes it to start. An external control signal from the driver must engage and disengage the starter solenoid.
+
+\paragraph{Transmission}
 
 The ICE has an internal 6-speed manual transmission. The first, fifth, and sixth gears have been removed to reduce weight. The vehicle is not operated at speeds that would benefit from the presence of the fifth or sixth gear.
 
@@ -77,6 +87,8 @@ The clutch is actuated by a lever attached to the engine body. a pre-tensioned s
 The gear selector is also acutated by a lever attached to the engine body. The gear selector may be rotated in either direction from its rest point. Up-shifting is accomplished by rotating the lever in one direction, while down-shifting is accomplished by rotating the lever in the opposite direction. 
 
 Opearting a purely mechanical manual transmission is taxing on the driver, and requires levers and linkages in the cockpit. Ideally, shifting between gears should happen as quickly as possible and require as little of the driver's attention as possible. Engagment of the clutch should be as smooth as possible. 
+
+\paragraph{Intake}
 
 The intake consists of several parts, including the \emph{throttle-body}, \emph{restrictor}, \emph{intake plenem}, \emph{intake runners}, and \emph{intake valves}. The throttle-body is a valve that controls the amount of air entering the intake system. It is followed by a restrictor, which restricts the maximum air flow into the engine. Use of a restrictor is mandated Formula SAE rules. After the restrictor, the air flows into a large intake plenum. From the plenum, four intake runners lead to each cylinder head, where the intake valves are located.
 
@@ -92,6 +104,8 @@ From figure \ref{fig:irl_effect}, we see the two distinct torque peaks that occu
     \caption{The effect of intake runner length on torque for various RPM.}
     \label{fig:irl_effect}
 \end{figure}
+
+\paragraph{Data Aquistion Device (DAQ)}
 
 Another specialized third-party component called the \emph{Data Aquisition Device} (DAQ) is used to log and relay sensor data to other electronic devices.
 
@@ -109,7 +123,11 @@ The particular DAQ used is the model DL1 from Race Technology \cite{DL1Dsheet}. 
 
 The braking system on the 2010 Formula vehicle is a hydraulically-controlled, \emph{disc brake} system. Hydraulic pressure causes calipers on each wheel to squeeze friction pads against the discs, thus braking the vehicle. There are two entirely independant closed hydraulic systems, one for the front brakes and the other for the rear brakes. If one of the systems fails, the other system may be used to safely stop the vehice.
 
+\paragraph{Brake Pedal, Master Cylinders and Balance Bar}
+
 A brake pedal in the cockpit is used to engage the brakes. Two \emph{brake master cylinders} (one for the front system and the other for the rear system) are connected to the brake pedal by way of a \emph{balance bar} (see figure \ref{fig:balance_bar_diag}). The balance bar distributes force from the brake pedal to the master cylinders \cite{TiltonBrakeBias}. 
+
+\paragraph{Brake Biasing}
 
 Changing the relative braking force between the front and rear is called \emph{brake biasing}. For example, having 65\% of the braking force applied to the front wheels and 35\% to the rear is denoted as "65/35" brake biasing. 
 
@@ -121,6 +139,8 @@ Most of the vehicle weight is in the rear, where the engine is mounted. During b
     \caption{A Tilton brand balance bar, similar to that used on the Formula SAE vehicle.}
     \label{fig:balance_bar_diag}
 \end{figure}
+
+\paragraph{Adjusting Shaft}
 
 The relative force provided to each brake master cylinder can be changed by rotating an \emph{adjusting shaft} on the balance bar. When the adjusting shaft is centered between the front and rear cylinders, an equal amount of force will be applied to each. The relationship between the deviation of the adjusting shaft from it's centre position and the relative force applied to each cylinder is approximately linear for a range between 65/35 and 35/65. See table \ref{table:bb_force_distribution} for more details.
 
@@ -141,7 +161,11 @@ The relative force provided to each brake master cylinder can be changed by rota
 	\end{tabular}
 \end{table}
 
+\paragraph{Difficulties in Bias Adjustment}
+
 Adjusting the brake bias in virtually all previous generations required removing body panels or the front nose cone, and manually turning a knob on the bias bar. Finding an appropriate setting for brake bias was a tedious trial and error exercise, as drivers had to run a lap in the car, brake heavily, and then return to the team so that the body could be removed and the bias adjusted. This is a very lengthy feedback loop in adjustability.
+
+\paragraph{Brake Pedal Assembly}
 
 The brake pedal and master cylinders are attached to a \emph{brake pedal assembly} located at the end of the cockpit (see figures\ref{fig:brake_pedal_assy_a} and \ref{fig:brake_pedal_assy_b}). Removal of the brake pedal assembly is prohibited because the brake lines that connect to the master cylinder cannot be removed without depressurizing both the front and rear brake systems. 
 

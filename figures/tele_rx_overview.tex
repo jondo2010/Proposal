@@ -1,0 +1,16 @@
+\def\antenna{
+  -- +(0mm,4.0mm) -- +(2.625mm,7.5mm) -- +(-2.625mm,7.5mm) -- +(0mm,4.0mm)
+}
+
+\begin{tikzpicture}[auto, node distance=3cm, draw=black!70, >=stealth']
+  \node [block, name=modem] {XBee Modem};
+  \node [block, name=laptop, below of=modem] {Laptop};
+  \node [block, name=ecu, left of=laptop, left=0.5cm] {ECU Software};
+  \node [block, name=daq, right of=laptop, right=0.5cm] {DAQ Software};
+  \node [bus, name=ant, above of=modem, below=1.5cm] {};
+
+  \draw [<->, thick] (modem) -- node[] {} (laptop);
+  \draw [<->, thick] (laptop) -- node[] {RS232} (ecu);
+  \draw [<->, thick] (laptop) -- node[] {RS232} (daq);
+  \draw [-, thick] (modem) -- node[text width=1.5cm] {} (ant) \antenna;
+\end{tikzpicture}
