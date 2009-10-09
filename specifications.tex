@@ -30,13 +30,22 @@ Code for all modules should be reused as much as possible to reduce the complexi
 \paragraph{Runtime Modifiable Operation}
 All parameters used by the software that might need to be modified during testing, tuning, and debugging must be modifiable at runtime either through the driver interface, or through the CAN debugger.
 
+\section{CAN Bus}
+The CAN bus must be able to
+\begin{enumerate}
+	\item Sustain data rates of up to 1 MBit/s; 
+	\item Tolerate communication failure from any node; and
+	\item Tolerate interference from the engine and other electronic control systems that may introduce electrical noise.
+\end{enumerate}
+
 \section{Engine Module}
 The engine module must be able to
 \begin{enumerate}
  \item start the engine by energizing the starter solenoid;
+ \item be capable of energizing the solenoid for at least ten seconds;
  \item activate and deactivate launch control on the ECU;
  \item send appropriate shift cut signals to the ECU;
- \item precisely control the position of the clutch;
+ \item precisely control the position of the clutch to within 1/16th of an inch;
  \item actuate the clutch from fully engaged, to fully disengaged in less than 150 ms.
  \item feather the clutch during low throttle launch; and
  \item actuate the variable intake manifold (timing requirements to be determined).
@@ -45,20 +54,23 @@ The engine module must be able to
 \section{Brake Module}
 The brake module must be able to
 \begin{enumerate}
- \item absolutely position the brake bias bar;
+ \item absolutely position the brake bias bar within 1/8th of an inch;
  \item adapt to changes in assembly position, etc, by recalibration; and
- \item detect pressure on the brake pedal.
+ \item detect pressure on the brake pedal, accurate to 5 psi.
 \end{enumerate}
 
 \section{Wireless Telemetry Module}
 The wireless telemetry module must be able to
 \begin{enumerate}
- \item transparently transport data bidirectionally with the ECU over the ECUs serial
-connection, and a laptop running the DTASwin tuning software;
+ \item transparently transport serial data bi-directionally between the ECU and a laptop running the DTASwin tuning software;
  \item broadcast telemetry data to one or more laptops running the Race Technology
 software. The serial protocol will be that of Race Technology, and data will
-come primarily from the DAQ, but also from other sensors; and
- \item send messages over the CAN network with data from the DAQ, such as accelerometer data.
+come primarily from the DAQ, but also from other sensors; 
+ \item send messages over the CAN network with data from the DAQ, such as accelerometer data;
+ \item operate over a range of 1.6 kilometres;
+ \item operate at a throughput of at least 112 KBps; 
+ \item communicate with at least two separate receiver modules at the same time; and
+ \item not cause intereferance to the CAN bus communication network.
 \end{enumerate}
 
 \section{Driver Interface Module}
@@ -75,6 +87,7 @@ The driver interface module must be able to
     \item current gear.
   \end{itemize}
  \item start the engine;
- \item alter module-specific parameters, such as shift timing constants; and
+ \item alter module-specific parameters, such as shift timing constants; 
+ \item alter said parameters without incuring any delay to the driver; and
  \item display team logo, and certain team sponsor logos on startup.
 \end{enumerate}

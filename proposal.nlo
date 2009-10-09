@@ -1,0 +1,11 @@
+\nomenclatureentry{aSAE@[{SAE}]\begingroup Society of Automotive Engineers\nomeqref {1.0}|nompageref}{5}
+\nomenclatureentry{aICE@[{ICE}]\begingroup Internal Combustion Engine\nomeqref {2.0}|nompageref}{6}
+\nomenclatureentry{aMAP@[{MAP}]\begingroup Manifold Absolute Pressure\nomeqref {2.0}|nompageref}{6}
+\nomenclatureentry{aECU@[{ECU}]\begingroup Engine Control Unit\nomeqref {2.0}|nompageref}{6}
+\nomenclatureentry{aDAQ@[{DAQ}]\begingroup Data Acquisition Device\nomeqref {2.0}|nompageref}{6}
+\nomenclatureentry{aGPS@[{GPS}]\begingroup Global Positioning System\nomeqref {2.0}|nompageref}{6}
+\nomenclatureentry{aPCB@[{PCB}]\begingroup Printed Circuit Board\nomeqref {3.0}|nompageref}{13}
+\nomenclatureentry{aCAN@[{CAN}]\begingroup Controller Area Network\nomeqref {3.0}|nompageref}{13}
+\nomenclatureentry{aPWM@[{PWM}]\begingroup Pulse Width Modulation\nomeqref {3.0}|nompageref}{15}
+\nomenclatureentry{aLCD@[{LCD}]\begingroup Liquid Crystal Display\nomeqref {3.0}|nompageref}{21}
+\nomenclatureentry{aVDM@[{VDM}]\begingroup Vehicle Dynamics Mode\nomeqref {3.0}|nompageref}{21}
