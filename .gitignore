@@ -5,3 +5,7 @@
 *.toc
 *.tex~
 *.backup
+*.bbl
+*.blg
+*.out
+.DS_Store
