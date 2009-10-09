@@ -7,7 +7,7 @@
 %	University of Manitoba
 %
 
-\section{Overview and Goals}
+\chapter{Overview and Goals}
 
 The vehicle as a whole is primarily a mechanical device, but carries several critical electronic control systems. Three key mechanical systems that either require electronic control or can benefit from electronic control are
 
@@ -17,7 +17,8 @@ The vehicle as a whole is primarily a mechanical device, but carries several cri
 \item the \emph{suspension system}.
 \end{itemize}
 
-\subsection{Internal Combustion Engine}
+\section{Internal Combustion Engine}
+\label{sec:ice_overview}
 
 \nomenclature{MAP}{Manifold Absolute Pressure}
 \nomenclature{ECU}{Engine Control Unit}
@@ -54,7 +55,7 @@ Several tasks and responsibilites are best accomplished by electronic means, i.e
 \item a signal to engage the starter solenoid must be provided;
 \item the clutch and gear selection levers must be intelligently actuated to change gears; 
 \item the clutch must be intelligently actuated to enable the vehicle to move forward slowly;
-\item the intake plenum valve must be opened or closed as driving conditions warrant; and
+\item the intake runner lengths must be modulated to provide maximum torque; and
 \item sensor outputs must be logged and relayed to team members wirelessly.
 \end{itemize}
 
@@ -77,7 +78,20 @@ The gear selector is also acutated by a lever attached to the engine body. The g
 
 Opearting a purely mechanical manual transmission is taxing on the driver, and requires levers and linkages in the cockpit. Ideally, shifting between gears should happen as quickly as possible and require as little of the driver's attention as possible. Engagment of the clutch should be as smooth as possible. 
 
-The intake plenum valve controls the effective length of the intake runners. Longer intake runners provide more air for combustion in the engine, which affects the air to fuel ratio and the overall efficiency and performance of the engine.
+The intake consists of several parts, including the \emph{throttle-body}, \emph{restrictor}, \emph{intake plenem}, \emph{intake runners}, and \emph{intake valves}. The throttle-body is a valve that controls the amount of air entering the intake system. It is followed by a restrictor, which restricts the maximum air flow into the engine. Use of a restrictor is mandated Formula SAE rules. After the restrictor, the air flows into a large intake plenum. From the plenum, four intake runners lead to each cylinder head, where the intake valves are located.
+
+As the intake valves on the engine open, they generate negative pressure waves that travel the length of the intake runners and back into the intake plenum. There, they reflect and travel back towards the intake valve. This reflection towards the intake valves can act to increase pressure at the valve and increase power.
+
+A fair amount of research has been done in previous years on the intake and exhaust design for the Formla SAE car. Former UMSAE engine section head Lucas Groening wrote an undergraduate thesis on modelling of the engine package for the 2008 Formula car. One important dynamic aspect of the engine design that he describes is the effect of the intake runner length on the torque output of the engine at different RPM \cite{Modelingof20}. 
+
+From figure \ref{fig:irl_effect}, we see the two distinct torque peaks that occur at different RPMs vary depending on intake plenum length. Different plenum lengths cause the two torque peaks to occur at different RPMs. An electronic means of modulating the length of the runners to maximize engine torque would dramatically improve engine performance.
+
+\begin{figure}[H]
+	\centering
+	 	\includegraphics[scale=0.60]{figures/irl_effect.png}
+    \caption{The effect of intake runner length on torque for various RPM.}
+    \label{fig:irl_effect}
+\end{figure}
 
 Another specialized third-party component called the \emph{Data Aquisition Device} (DAQ) is used to log and relay sensor data to other electronic devices.
 
@@ -90,7 +104,8 @@ The particular DAQ used is the model DL1 from Race Technology \cite{DL1Dsheet}. 
     \label{fig:dl1_product}
 \end{figure}
 
-\subsection{Braking System}
+\section{Braking System}
+\label{sec:brake-overview}
 
 The braking system on the 2010 Formula vehicle is a hydraulically-controlled, \emph{disc brake} system. Hydraulic pressure causes calipers on each wheel to squeeze friction pads against the discs, thus braking the vehicle. There are two entirely independant closed hydraulic systems, one for the front brakes and the other for the rear brakes. If one of the systems fails, the other system may be used to safely stop the vehice.
 
@@ -126,7 +141,9 @@ The relative force provided to each brake master cylinder can be changed by rota
 	\end{tabular}
 \end{table}
 
-Manually adjusting the brake bias is an arduous task. The brake pedal and master cylinders are attached to a \emph{brake pedal assembly} located at the end of the cockpit (see figures\ref{fig:brake_pedal_assy_a} and \ref{fig:brake_pedal_assy_b}). This assembly is very difficult to reach by hand, and there is very little room to work. Removal of the brake pedal assembly is prohibited because the brake lines that connect to the master cylinder cannot be removed without depressurizing both the front and rear brake systems. The adjustment rod is rotated with an allen key. Precise adjustment requires calipers, and is nearly impossible given the cramped space available.
+Adjusting the brake bias in virtually all previous generations required removing body panels or the front nose cone, and manually turning a knob on the bias bar. Finding an appropriate setting for brake bias was a tedious trial and error exercise, as drivers had to run a lap in the car, brake heavily, and then return to the team so that the body could be removed and the bias adjusted. This is a very lengthy feedback loop in adjustability.
+
+The brake pedal and master cylinders are attached to a \emph{brake pedal assembly} located at the end of the cockpit (see figures\ref{fig:brake_pedal_assy_a} and \ref{fig:brake_pedal_assy_b}). Removal of the brake pedal assembly is prohibited because the brake lines that connect to the master cylinder cannot be removed without depressurizing both the front and rear brake systems. 
 
 \begin{figure}[h!]
 	\centering
@@ -138,6 +155,6 @@ Manually adjusting the brake bias is an arduous task. The brake pedal and master
     \label{fig:brake_pedal_assy}
 \end{figure}
 
-\subsection{Suspension System}
+\section{Suspension System}
 
 The suspension system consists of springs that control the height and attack of the vehicle. Although electronic control of the suspension system is desirable, it is out of the scope of our thesis project and will be approached by future UMSAE teams.
