@@ -4,7 +4,7 @@
 
   \item [{CAN}]\begingroup Controller Area Network\nomeqref {3.0}
 		\nompageref{19}
-  \item [{DAQ}]\begingroup Data Aquisition device, provides and logs high-performance GPS, accelerometer, and ADC input data\nomeqref {2.0}
+  \item [{DAQ}]\begingroup Data Aquisition Device\nomeqref {2.0}
 		\nompageref{5}
   \item [{ECU}]\begingroup Engine Control Unit\nomeqref {2.0}
 		\nompageref{5}
